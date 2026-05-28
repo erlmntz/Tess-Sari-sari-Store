@@ -95,6 +95,67 @@ function renderProducts(products) {
   }).join('');
 }
 
+var pendingImageFile = null;
+
+function switchImageTab(tab) {
+  var uploadTab = document.getElementById('uploadTab');
+  var urlTab = document.getElementById('urlTab');
+  var btnUpload = document.getElementById('btnUploadTab');
+  var btnUrl = document.getElementById('btnUrlTab');
+  if (tab === 'upload') {
+    uploadTab.style.display = 'block';
+    urlTab.style.display = 'none';
+    btnUpload.className = 'btn btn-sm btn-outline-primary active';
+    btnUrl.className = 'btn btn-sm btn-outline-secondary';
+  } else {
+    uploadTab.style.display = 'none';
+    urlTab.style.display = 'block';
+    btnUpload.className = 'btn btn-sm btn-outline-secondary';
+    btnUrl.className = 'btn btn-sm btn-outline-primary active';
+  }
+}
+
+function previewFileImage(input) {
+  var preview = document.getElementById('imagePreview');
+  var img = document.getElementById('imagePreviewImg');
+  if (input.files && input.files[0]) {
+    pendingImageFile = input.files[0];
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      img.src = e.target.result;
+      preview.style.display = 'flex';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function clearImagePreview() {
+  document.getElementById('imagePreview').style.display = 'none';
+  document.getElementById('imagePreviewImg').src = '';
+  document.getElementById('productImageUrl').value = '';
+  document.getElementById('productImageFile').value = '';
+  pendingImageFile = null;
+}
+
+async function uploadImageToStorage(file) {
+  var ext = file.name.split('.').pop().toLowerCase();
+  var fileName = Date.now() + '-' + Math.random().toString(36).substring(2, 8) + '.' + ext;
+
+  var { data, error } = await supabase.storage
+    .from('product-images')
+    .upload(fileName, file, { cacheControl: '3600', upsert: false });
+
+  if (error) {
+    throw new Error('Upload failed: ' + error.message);
+  }
+
+  var { data: urlData } = supabase.storage
+    .from('product-images')
+    .getPublicUrl(fileName);
+
+  return urlData.publicUrl;
+}
+
 function setupImagePreview() {
   var input = document.getElementById('productImageUrl');
   if (!input) return;
@@ -104,7 +165,7 @@ function setupImagePreview() {
     var img = document.getElementById('imagePreviewImg');
     if (url) {
       img.src = url;
-      img.onload = function() { preview.style.display = 'block'; };
+      img.onload = function() { preview.style.display = 'flex'; };
       img.onerror = function() { preview.style.display = 'none'; };
     } else {
       preview.style.display = 'none';
@@ -128,7 +189,11 @@ function openAddProduct() {
   document.getElementById('productId').value = '';
   document.getElementById('productThreshold').value = 5;
   document.getElementById('productImageUrl').value = '';
+  document.getElementById('productImageFile').value = '';
   document.getElementById('imagePreview').style.display = 'none';
+  document.getElementById('uploadProgress').style.display = 'none';
+  pendingImageFile = null;
+  switchImageTab('upload');
 }
 
 function openEditProduct(id) {
@@ -145,13 +210,18 @@ function openEditProduct(id) {
   document.getElementById('productQuantity').value = product.quantity;
   document.getElementById('productThreshold').value = product.low_stock_threshold;
   document.getElementById('productImageUrl').value = product.image_url || '';
+  document.getElementById('productImageFile').value = '';
+  document.getElementById('uploadProgress').style.display = 'none';
+  pendingImageFile = null;
   var preview = document.getElementById('imagePreview');
   var img = document.getElementById('imagePreviewImg');
   if (product.image_url) {
     img.src = product.image_url;
-    preview.style.display = 'block';
+    preview.style.display = 'flex';
+    switchImageTab('url');
   } else {
     preview.style.display = 'none';
+    switchImageTab('upload');
   }
 
   var modal = new bootstrap.Modal(document.getElementById('productModal'));
@@ -160,6 +230,21 @@ function openEditProduct(id) {
 
 async function saveProduct() {
   var id = document.getElementById('productId').value;
+  var imageUrl = document.getElementById('productImageUrl').value.trim() || null;
+
+  // Handle file upload if a file was selected
+  if (pendingImageFile) {
+    try {
+      document.getElementById('uploadProgress').style.display = 'block';
+      imageUrl = await uploadImageToStorage(pendingImageFile);
+      document.getElementById('uploadProgress').style.display = 'none';
+    } catch (err) {
+      document.getElementById('uploadProgress').style.display = 'none';
+      showToast(err.message, 'error');
+      return;
+    }
+  }
+
   var productData = {
     name: document.getElementById('productName').value.trim(),
     category: document.getElementById('productCategory').value,
@@ -168,7 +253,7 @@ async function saveProduct() {
     cost: parseFloat(document.getElementById('productCost').value) || 0,
     quantity: parseInt(document.getElementById('productQuantity').value) || 0,
     low_stock_threshold: parseInt(document.getElementById('productThreshold').value) || 5,
-    image_url: document.getElementById('productImageUrl').value.trim() || null,
+    image_url: imageUrl,
     updated_at: new Date().toISOString()
   };
 
@@ -189,6 +274,7 @@ async function saveProduct() {
     return;
   }
 
+  pendingImageFile = null;
   bootstrap.Modal.getInstance(document.getElementById('productModal')).hide();
   showToast(id ? 'Product updated!' : 'Product added!');
   await loadProducts();
