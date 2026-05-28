@@ -56,7 +56,7 @@ function renderProducts(products) {
   var tbody = document.getElementById('productsTable');
 
   if (products.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><i class="bi bi-box-seam"></i><p>No products found</p></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="9" class="empty-state"><i class="bi bi-box-seam"></i><p>No products found</p></td></tr>';
     return;
   }
 
@@ -73,7 +73,12 @@ function renderProducts(products) {
       statusText = 'In Stock';
     }
 
+    var imgCell = p.image_url
+      ? '<img src="' + p.image_url + '" alt="' + escapeHtml(p.name) + '" style="width:40px;height:40px;object-fit:contain;border-radius:6px;background:#fff;border:1px solid #e2e8f0" onerror="this.style.display=\'none\';">'
+      : '<i class="bi bi-image text-muted"></i>';
+
     return '<tr>' +
+      '<td class="text-center">' + imgCell + '</td>' +
       '<td class="fw-semibold">' + p.name + '</td>' +
       '<td>' + p.category + '</td>' +
       '<td>' + formatCurrency(p.price) + '</td>' +
@@ -90,6 +95,27 @@ function renderProducts(products) {
   }).join('');
 }
 
+function setupImagePreview() {
+  var input = document.getElementById('productImageUrl');
+  if (!input) return;
+  input.addEventListener('input', function() {
+    var url = input.value.trim();
+    var preview = document.getElementById('imagePreview');
+    var img = document.getElementById('imagePreviewImg');
+    if (url) {
+      img.src = url;
+      img.onload = function() { preview.style.display = 'block'; };
+      img.onerror = function() { preview.style.display = 'none'; };
+    } else {
+      preview.style.display = 'none';
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  setupImagePreview();
+});
+
 function escapeHtml(text) {
   var div = document.createElement('div');
   div.textContent = text;
@@ -101,6 +127,8 @@ function openAddProduct() {
   document.getElementById('productForm').reset();
   document.getElementById('productId').value = '';
   document.getElementById('productThreshold').value = 5;
+  document.getElementById('productImageUrl').value = '';
+  document.getElementById('imagePreview').style.display = 'none';
 }
 
 function openEditProduct(id) {
@@ -116,6 +144,15 @@ function openEditProduct(id) {
   document.getElementById('productCost').value = product.cost;
   document.getElementById('productQuantity').value = product.quantity;
   document.getElementById('productThreshold').value = product.low_stock_threshold;
+  document.getElementById('productImageUrl').value = product.image_url || '';
+  var preview = document.getElementById('imagePreview');
+  var img = document.getElementById('imagePreviewImg');
+  if (product.image_url) {
+    img.src = product.image_url;
+    preview.style.display = 'block';
+  } else {
+    preview.style.display = 'none';
+  }
 
   var modal = new bootstrap.Modal(document.getElementById('productModal'));
   modal.show();
@@ -131,6 +168,7 @@ async function saveProduct() {
     cost: parseFloat(document.getElementById('productCost').value) || 0,
     quantity: parseInt(document.getElementById('productQuantity').value) || 0,
     low_stock_threshold: parseInt(document.getElementById('productThreshold').value) || 5,
+    image_url: document.getElementById('productImageUrl').value.trim() || null,
     updated_at: new Date().toISOString()
   };
 
