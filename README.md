@@ -1,13 +1,22 @@
-# Sari-Sari Store POS - Inventory & Credit System
+# Tess Sari-Sari Store - POS, Inventory & Credit System
 
-A simple inventory and credit (utang) management system for sari-sari stores in the Philippines. Built with a **7-Eleven inspired theme**.
+A complete sari-sari store system with **customer storefront** and **admin panel**. Built with a 7-Eleven inspired theme.
 
 ## Features
 
+### Customer Store (index.html)
+- Browse all products with images and categories
+- Search and filter products
+- Add to cart, checkout for pickup
+- Google Maps location
+- Tagalog / Pinoy style design
+
+### Admin Panel (admin/)
 - **Dashboard** - Overview of products, low stock alerts, total utang, and today's sales
-- **Inventory Management** - Add, edit, delete, and restock products with category filtering
+- **Inventory Management** - Add, edit, delete, restock products with image URL support
 - **Credit / Utang System** - Track neighbor credits, record partial payments, mark as fully paid
 - **Point of Sale** - Quick sales with cash or credit (utang) payment options
+- **Pickup Orders** - Manage customer pickup orders from the storefront
 - **Responsive Design** - Works on desktop, tablet, and mobile
 
 ## Tech Stack
@@ -17,20 +26,44 @@ A simple inventory and credit (utang) management system for sari-sari stores in 
 - Supabase (PostgreSQL database)
 - Vercel (deployment)
 
+## File Structure
+
+```
+Tess-Sari-sari-Store/
+├── index.html              # Customer storefront (main page)
+├── admin/
+│   ├── index.html          # Admin dashboard
+│   ├── inventory.html      # Inventory management (with product images)
+│   ├── credits.html        # Credit/utang tracking
+│   ├── sales.html          # Point of sale
+│   └── orders.html         # Pickup orders management
+├── css/
+│   ├── style.css           # Admin 7-Eleven themed styles
+│   └── store.css           # Customer storefront styles
+├── js/
+│   ├── supabase-config.js  # Supabase credentials
+│   ├── app.js              # Shared admin utilities
+│   ├── dashboard.js        # Dashboard logic
+│   ├── inventory.js        # Inventory CRUD + image support
+│   ├── credits.js          # Credits/utang management
+│   ├── sales.js            # POS/sales logic
+│   ├── orders.js           # Pickup orders logic
+│   └── store.js            # Customer storefront logic
+├── supabase-schema.sql     # Database schema
+└── README.md
+```
+
 ## Setup Instructions
 
-### 1. Create a Supabase Project
+### 1. Supabase Database
 
-1. Go to [supabase.com](https://supabase.com) and create a free account
-2. Create a new project
-3. Go to **SQL Editor** and run the SQL from `supabase-schema.sql`
-4. Go to **Settings → API** and copy your:
-   - **Project URL** (e.g., `https://abcdefg.supabase.co`)
-   - **anon/public key** (e.g., `eyJhbGciOiJIUzI1NiIs...`)
+1. Go to [supabase.com](https://supabase.com) and create a project
+2. Go to **SQL Editor** and run the SQL from `supabase-schema.sql`
+3. Go to **Settings → API** and copy your **Project URL** and **anon key**
 
 ### 2. Configure the App
 
-Open `js/supabase-config.js` and replace the placeholders:
+Open `js/supabase-config.js` and set your credentials:
 
 ```javascript
 const SUPABASE_URL = 'https://your-project.supabase.co';
@@ -39,14 +72,11 @@ const SUPABASE_ANON_KEY = 'your-anon-key-here';
 
 ### 3. Deploy to Vercel
 
-1. Push the `sari-sari-store` folder to a GitHub repo
+1. Push this repo to GitHub
 2. Go to [vercel.com](https://vercel.com) and import your repository
-3. Set the **Root Directory** to `sari-sari-store` (if it's a subfolder)
-4. Deploy!
+3. Deploy!
 
 ### 4. Run Locally
-
-Just open `index.html` in your browser, or use a local server:
 
 ```bash
 # Using Python
@@ -56,26 +86,10 @@ python -m http.server 8000
 npx serve .
 ```
 
-## File Structure
+## URLs
 
-```
-sari-sari-store/
-├── index.html              # Dashboard
-├── inventory.html          # Inventory management
-├── credits.html            # Credit/utang tracking
-├── sales.html              # Point of sale
-├── supabase-schema.sql     # Database schema (run in Supabase)
-├── css/
-│   └── style.css           # 7-Eleven themed styles
-├── js/
-│   ├── supabase-config.js  # Supabase credentials (edit this!)
-│   ├── app.js              # Shared utilities
-│   ├── dashboard.js        # Dashboard logic
-│   ├── inventory.js        # Inventory CRUD
-│   ├── credits.js          # Credits/utang management
-│   └── sales.js            # POS/sales logic
-└── README.md
-```
+- **Customer Store**: `your-domain.vercel.app/` (root)
+- **Admin Panel**: `your-domain.vercel.app/admin/`
 
 ## Product Categories
 
@@ -86,4 +100,4 @@ Pre-configured for typical sari-sari store items:
 
 ## Sample Data
 
-The SQL schema includes sample products (Lucky Me, Argentina, Coca-Cola, etc.) and sample customers (Aling Maria, Mang Jose, etc.) to get you started.
+The SQL schema includes 25 sample products with images (Lucky Me, Argentina, Coca-Cola, etc.) and 5 sample customers (Aling Maria, Mang Jose, etc.) to get you started.
