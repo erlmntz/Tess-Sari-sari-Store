@@ -1,0 +1,910 @@
+/* ============================================================
+   SARI-SARI STORE POS - 7-ELEVEN INSPIRED THEME
+   Colors: Green #00703C, Orange #FF6600, Red #C8102E
+   ============================================================ */
+
+:root {
+  --seven-green: #00703C;
+  --seven-green-dark: #005a30;
+  --seven-green-light: #e6f4ec;
+  --seven-orange: #FF6600;
+  --seven-orange-light: #fff3e6;
+  --seven-red: #C8102E;
+  --seven-red-light: #fce8eb;
+  --seven-white: #ffffff;
+  --seven-dark: #1a1a2e;
+  --seven-gray: #f4f6f9;
+  --seven-border: #e2e8f0;
+  --sidebar-width: 260px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--seven-gray);
+  color: #333;
+  min-height: 100vh;
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: linear-gradient(180deg, var(--seven-dark) 0%, #16213e 100%);
+  color: white;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+}
+
+.sidebar-header {
+  padding: 24px 20px;
+  text-align: center;
+  border-bottom: 3px solid var(--seven-green);
+}
+
+.store-logo {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, var(--seven-green), var(--seven-orange));
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  font-size: 32px;
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 112, 60, 0.3);
+}
+
+.store-name {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 2px;
+  letter-spacing: 0.5px;
+}
+
+.store-tagline {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 16px 0;
+  flex: 1;
+}
+
+.sidebar-nav .nav-item a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+}
+
+.sidebar-nav .nav-item a:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.05);
+  border-left-color: var(--seven-orange);
+}
+
+.sidebar-nav .nav-item.active a {
+  color: white;
+  background: rgba(0, 112, 60, 0.2);
+  border-left-color: var(--seven-green);
+}
+
+.sidebar-nav .nav-item a i {
+  font-size: 1.1rem;
+  width: 24px;
+  text-align: center;
+}
+
+.sidebar-footer {
+  padding: 16px 20px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.7rem;
+}
+
+.seven-stripe {
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--seven-green) 0%,
+    var(--seven-green) 33%,
+    var(--seven-orange) 33%,
+    var(--seven-orange) 66%,
+    var(--seven-red) 66%,
+    var(--seven-red) 100%
+  );
+  border-radius: 2px;
+  margin-bottom: 12px;
+}
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+
+.main-content {
+  margin-left: var(--sidebar-width);
+  padding: 24px;
+  min-height: 100vh;
+}
+
+/* ============================================================
+   TOPBAR
+   ============================================================ */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--seven-border);
+}
+
+.page-title {
+  font-weight: 700;
+  color: var(--seven-dark);
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.page-title i {
+  color: var(--seven-green);
+  margin-right: 6px;
+}
+
+.topbar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar-toggle {
+  color: var(--seven-dark);
+  padding: 0;
+}
+
+/* ============================================================
+   STAT CARDS
+   ============================================================ */
+
+.stat-card {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid;
+  transition: transform 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+}
+
+.stat-green { border-left-color: var(--seven-green); }
+.stat-orange { border-left-color: var(--seven-orange); }
+.stat-red { border-left-color: var(--seven-red); }
+.stat-green-alt { border-left-color: #28a745; }
+
+.stat-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+.stat-green .stat-icon { background: var(--seven-green-light); color: var(--seven-green); }
+.stat-orange .stat-icon { background: var(--seven-orange-light); color: var(--seven-orange); }
+.stat-red .stat-icon { background: var(--seven-red-light); color: var(--seven-red); }
+.stat-green-alt .stat-icon { background: #e8f5e9; color: #28a745; }
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--seven-dark);
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #888;
+  font-weight: 500;
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+
+.seven-card {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.seven-card-header {
+  background: linear-gradient(135deg, var(--seven-green), var(--seven-green-dark));
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 14px 20px;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.seven-card-header i {
+  font-size: 1rem;
+}
+
+/* ============================================================
+   TABLES
+   ============================================================ */
+
+.table {
+  font-size: 0.85rem;
+}
+
+.table thead th {
+  background: var(--seven-gray);
+  color: var(--seven-dark);
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 16px;
+  border-bottom: 2px solid var(--seven-border);
+}
+
+.table tbody td {
+  padding: 10px 16px;
+  vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+  background: var(--seven-green-light);
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.btn-seven-green {
+  background: var(--seven-green);
+  color: white;
+  border: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 8px 18px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.btn-seven-green:hover {
+  background: var(--seven-green-dark);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 112, 60, 0.3);
+}
+
+.btn-seven-orange {
+  background: var(--seven-orange);
+  color: white;
+  border: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 8px 18px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.btn-seven-orange:hover {
+  background: #e55b00;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.btn-seven-red {
+  background: var(--seven-red);
+  color: white;
+  border: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 8px 18px;
+  border-radius: 8px;
+}
+
+.btn-seven-red:hover {
+  background: #a80d25;
+  color: white;
+}
+
+.bg-seven-green {
+  background-color: var(--seven-green) !important;
+}
+
+.text-seven-green {
+  color: var(--seven-green) !important;
+}
+
+/* ============================================================
+   BADGES
+   ============================================================ */
+
+.badge-stock-ok {
+  background: var(--seven-green-light);
+  color: var(--seven-green);
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+}
+
+.badge-stock-low {
+  background: var(--seven-orange-light);
+  color: var(--seven-orange);
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+}
+
+.badge-stock-out {
+  background: var(--seven-red-light);
+  color: var(--seven-red);
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+}
+
+.badge-paid {
+  background: var(--seven-green-light);
+  color: var(--seven-green);
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+}
+
+.badge-unpaid {
+  background: var(--seven-red-light);
+  color: var(--seven-red);
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+}
+
+.badge-cash {
+  background: var(--seven-green-light);
+  color: var(--seven-green);
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+}
+
+.badge-credit {
+  background: var(--seven-red-light);
+  color: var(--seven-red);
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+}
+
+/* ============================================================
+   MODALS
+   ============================================================ */
+
+.seven-modal .modal-header {
+  background: linear-gradient(135deg, var(--seven-green), var(--seven-green-dark));
+  color: white;
+  border: none;
+}
+
+.seven-modal .modal-header .btn-close {
+  filter: brightness(0) invert(1);
+}
+
+.seven-modal .modal-body {
+  padding: 24px;
+}
+
+.seven-modal .form-label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--seven-dark);
+}
+
+.seven-modal .form-control,
+.seven-modal .form-select {
+  border-radius: 8px;
+  border: 1.5px solid var(--seven-border);
+  padding: 10px 14px;
+  font-size: 0.9rem;
+}
+
+.seven-modal .form-control:focus,
+.seven-modal .form-select:focus {
+  border-color: var(--seven-green);
+  box-shadow: 0 0 0 3px rgba(0, 112, 60, 0.15);
+}
+
+/* ============================================================
+   PRODUCT GRID (Sales Page)
+   ============================================================ */
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  max-height: 500px;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.product-tile {
+  background: white;
+  border: 2px solid var(--seven-border);
+  border-radius: 12px;
+  padding: 14px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.product-tile:hover {
+  border-color: var(--seven-green);
+  box-shadow: 0 4px 12px rgba(0, 112, 60, 0.15);
+  transform: translateY(-2px);
+}
+
+.product-tile.out-of-stock {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.product-tile-name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--seven-dark);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.product-tile-price {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--seven-green);
+}
+
+.product-tile-stock {
+  font-size: 0.7rem;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* ============================================================
+   CART (Sales Page)
+   ============================================================ */
+
+.cart-items {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--seven-border);
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.cart-item-info {
+  flex: 1;
+}
+
+.cart-item-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--seven-dark);
+}
+
+.cart-item-price {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.cart-item-qty {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cart-item-qty button {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1.5px solid var(--seven-border);
+  background: white;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.cart-item-qty button:hover {
+  background: var(--seven-green);
+  color: white;
+  border-color: var(--seven-green);
+}
+
+.cart-item-qty span {
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+}
+
+.cart-item-total {
+  font-weight: 700;
+  color: var(--seven-green);
+  font-size: 0.9rem;
+  min-width: 70px;
+  text-align: right;
+}
+
+.cart-item-remove {
+  color: var(--seven-red);
+  cursor: pointer;
+  margin-left: 8px;
+  font-size: 1rem;
+}
+
+.cart-item-remove:hover {
+  color: #a80d25;
+}
+
+/* ============================================================
+   CUSTOMER CREDIT CARDS
+   ============================================================ */
+
+.customer-credit-card {
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.customer-credit-header {
+  background: linear-gradient(135deg, var(--seven-dark), #16213e);
+  color: white;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.customer-credit-header .customer-name {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.customer-credit-header .customer-address {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.customer-credit-header .total-utang {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--seven-orange);
+}
+
+.customer-credit-body {
+  padding: 0;
+}
+
+/* ============================================================
+   ALERTS / TOASTS
+   ============================================================ */
+
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.toast-seven {
+  background: white;
+  border-left: 4px solid var(--seven-green);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 14px 20px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: slideInRight 0.3s ease;
+  min-width: 280px;
+}
+
+.toast-seven.toast-error {
+  border-left-color: var(--seven-red);
+}
+
+.toast-seven.toast-warning {
+  border-left-color: var(--seven-orange);
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* ============================================================
+   FORMS (Global overrides)
+   ============================================================ */
+
+.form-control,
+.form-select {
+  border-radius: 8px;
+  border: 1.5px solid var(--seven-border);
+  font-size: 0.9rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--seven-green);
+  box-shadow: 0 0 0 3px rgba(0, 112, 60, 0.15);
+}
+
+.input-group-text {
+  border-radius: 8px 0 0 8px;
+}
+
+/* ============================================================
+   ACTION BUTTONS IN TABLES
+   ============================================================ */
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin: 0 2px;
+}
+
+.action-btn-edit {
+  background: var(--seven-orange-light);
+  color: var(--seven-orange);
+}
+
+.action-btn-edit:hover {
+  background: var(--seven-orange);
+  color: white;
+}
+
+.action-btn-delete {
+  background: var(--seven-red-light);
+  color: var(--seven-red);
+}
+
+.action-btn-delete:hover {
+  background: var(--seven-red);
+  color: white;
+}
+
+.action-btn-restock {
+  background: var(--seven-green-light);
+  color: var(--seven-green);
+}
+
+.action-btn-restock:hover {
+  background: var(--seven-green);
+  color: white;
+}
+
+.action-btn-pay {
+  background: var(--seven-green-light);
+  color: var(--seven-green);
+}
+
+.action-btn-pay:hover {
+  background: var(--seven-green);
+  color: white;
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--seven-gray);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+/* ============================================================
+   SIDEBAR OVERLAY (Mobile)
+   ============================================================ */
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 767.98px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay.active {
+    display: block;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 16px;
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+  }
+
+  .topbar-right {
+    width: 100%;
+    margin-top: 8px;
+    margin-left: 0;
+    justify-content: flex-end;
+  }
+
+  .stat-value {
+    font-size: 1.1rem;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  }
+}
+
+@media (max-width: 575.98px) {
+  .stat-card {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+
+  .stat-value {
+    font-size: 1rem;
+  }
+}
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #aaa;
+}
+
+.empty-state i {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.empty-state p {
+  font-size: 0.9rem;
+}
+
+/* ============================================================
+   SUPABASE CONFIG BANNER
+   ============================================================ */
+
+.config-banner {
+  background: linear-gradient(135deg, var(--seven-orange-light), #fff8f0);
+  border: 2px dashed var(--seven-orange);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.config-banner h5 {
+  color: var(--seven-orange);
+  font-weight: 700;
+}
+
+.config-banner code {
+  background: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}

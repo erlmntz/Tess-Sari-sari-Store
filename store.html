@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tess Sari-Sari Store</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/store.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="store-header">
+    <div class="header-pattern"></div>
+    <div class="container">
+      <div class="header-content">
+        <div class="store-brand">
+          <div class="store-icon-wrap">
+            <i class="bi bi-shop"></i>
+          </div>
+          <div>
+            <h1 class="store-title">Tess Sari-Sari Store</h1>
+            <p class="store-subtitle"><i class="bi bi-geo-alt-fill"></i> Mabalas-balas, San Rafael, Bulacan &bull; Bukas araw-araw!</p>
+          </div>
+        </div>
+        <button class="cart-btn" onclick="toggleCart()">
+          <i class="bi bi-cart3"></i>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Promo Banner -->
+  <div class="promo-banner">
+    <div class="container">
+      <div class="promo-scroll">
+        <span><i class="bi bi-megaphone-fill"></i> Mura na, malapit pa! &bull;</span>
+        <span><i class="bi bi-star-fill"></i> Pwede mag-order online, pick up sa store! &bull;</span>
+        <span><i class="bi bi-truck"></i> I-text o i-order dito, hintayin na lang! &bull;</span>
+        <span><i class="bi bi-heart-fill"></i> Salamat sa pagtangkilik, kapitbahay! &bull;</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="store-main">
+    <div class="container">
+
+      <!-- Search & Category Filter -->
+      <div class="filter-section">
+        <div class="search-box">
+          <i class="bi bi-search"></i>
+          <input type="text" id="searchInput" placeholder="Maghanap ng produkto..." oninput="filterStoreProducts()">
+        </div>
+        <div class="category-pills" id="categoryPills">
+          <button class="cat-pill active" onclick="selectCategory(this, '')">Lahat</button>
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="products-section">
+        <h3 class="section-title"><i class="bi bi-basket3-fill"></i> Mga Produkto</h3>
+        <div class="store-grid" id="storeGrid">
+          <div class="text-center py-5 text-muted">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2">Nag-loload ng mga produkto...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Floating Cart Button (Mobile) -->
+  <button class="floating-cart" onclick="toggleCart()" id="floatingCart" style="display:none">
+    <i class="bi bi-cart3"></i>
+    <span class="floating-badge" id="floatingBadge">0</span>
+    <span class="floating-total" id="floatingTotal">₱0</span>
+  </button>
+
+  <!-- Cart Sidebar -->
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h5><i class="bi bi-cart3"></i> Aking Cart</h5>
+      <button class="cart-close" onclick="toggleCart()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="cart-body" id="cartBody">
+      <div class="cart-empty">
+        <i class="bi bi-cart-x"></i>
+        <p>Wala pang laman ang cart mo!</p>
+        <small>Pumili ng mga produkto sa tindahan</small>
+      </div>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-total-row">
+        <span>Kabuuan:</span>
+        <span class="cart-total-amount" id="cartTotalAmount">₱0.00</span>
+      </div>
+      <button class="checkout-btn" onclick="openCheckout()">
+        <i class="bi bi-bag-check-fill"></i> I-checkout para sa Pickup
+      </button>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div class="modal fade" id="checkoutModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content checkout-modal">
+        <div class="modal-header checkout-header">
+          <h5><i class="bi bi-bag-check-fill"></i> Pickup Order</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Order Summary -->
+          <div class="order-summary" id="orderSummary"></div>
+
+          <hr>
+
+          <h6 class="fw-bold mb-3"><i class="bi bi-person-fill"></i> Impormasyon</h6>
+          <form id="checkoutForm">
+            <div class="mb-3">
+              <label class="form-label">Pangalan</label>
+              <input type="text" class="form-control" id="checkoutName" required placeholder="e.g. Juan Dela Cruz">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Phone Number</label>
+              <input type="tel" class="form-control" id="checkoutPhone" required placeholder="e.g. 09171234567">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Kailan mo kukunin? (opsyonal)</label>
+              <select class="form-select" id="checkoutPickup">
+                <option value="Ngayon na">Ngayon na</option>
+                <option value="Mamaya (30 mins)">Mamaya (30 mins)</option>
+                <option value="Mamaya (1 oras)">Mamaya (1 oras)</option>
+                <option value="Bukas">Bukas</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Notes / Paalala (opsyonal)</label>
+              <textarea class="form-control" id="checkoutNotes" rows="2" placeholder="e.g. Pahingi po ng sukli sa 500"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bumalik</button>
+          <button type="button" class="btn btn-checkout" onclick="placeOrder()">
+            <i class="bi bi-check-circle-fill"></i> I-order na!
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal fade" id="successModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content success-modal">
+        <div class="modal-body text-center py-4">
+          <div class="success-icon">
+            <i class="bi bi-check-circle-fill"></i>
+          </div>
+          <h4 class="fw-bold mt-3">Salamat!</h4>
+          <p class="text-muted">Na-receive na ang order mo. Punta ka na lang sa store para kunin!</p>
+          <p class="fw-bold text-primary" id="successOrderId"></p>
+          <button class="btn btn-checkout w-100 mt-2" data-bs-dismiss="modal" onclick="resetAfterOrder()">OK, Salamat!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Location / Map Section -->
+  <section class="store-location" id="locationSection">
+    <div class="container">
+      <div class="location-header">
+        <h3><i class="bi bi-geo-alt-fill" style="color:var(--pinoy-red)"></i> Nasaan Kami?</h3>
+        <p>Puntahan mo kami sa aming tindahan!</p>
+      </div>
+      <div class="location-content">
+        <div class="location-map">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1929.5!2d120.9425473!3d15.0242718!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTXCsDAxJzI3LjQiTiAxMjDCsDU2JzMzLjIiRQ!5e0!3m2!1sen!2sph!4v1700000000000" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div class="location-details">
+          <div class="location-item">
+            <div class="location-item-icon"><i class="bi bi-geo-alt-fill"></i></div>
+            <div class="location-item-text">
+              <h6>Address</h6>
+              <p>234, Purok 3 Mabalas-balas, San Rafael, Bulacan</p>
+            </div>
+          </div>
+          <div class="location-item">
+            <div class="location-item-icon"><i class="bi bi-clock-fill"></i></div>
+            <div class="location-item-text">
+              <h6>Oras ng Tindahan</h6>
+              <p>Bukas araw-araw, 6:00 AM - 10:00 PM</p>
+            </div>
+          </div>
+          <div class="location-item">
+            <div class="location-item-icon"><i class="bi bi-telephone-fill"></i></div>
+            <div class="location-item-text">
+              <h6>Contact</h6>
+              <p>0917-123-4567</p>
+            </div>
+          </div>
+          <div class="location-item">
+            <div class="location-item-icon"><i class="bi bi-bag-check-fill"></i></div>
+            <div class="location-item-text">
+              <h6>Pickup Orders</h6>
+              <p>Mag-order online, kunin sa store!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="store-footer">
+    <div class="container">
+      <div class="footer-content">
+        <p><i class="bi bi-shop"></i> Tess Sari-Sari Store</p>
+        <p class="small">Mabalas-balas, San Rafael, Bulacan &bull; Bukas 6AM - 10PM &bull; <i class="bi bi-telephone-fill"></i> 0917-123-4567</p>
+        <div class="footer-stripe"></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/store.js"></script>
+</body>
+</html>
