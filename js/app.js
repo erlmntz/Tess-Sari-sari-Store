@@ -3,9 +3,30 @@
 // ============================================================
 
 function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('active');
-  document.getElementById('sidebarOverlay').classList.toggle('active');
+  var sidebar = document.getElementById('sidebar');
+  var main = document.querySelector('.main-content');
+  var overlay = document.getElementById('sidebarOverlay');
+  var isMobile = window.innerWidth < 768;
+
+  if (isMobile) {
+    sidebar.classList.toggle('active');
+    if (overlay) overlay.classList.toggle('active');
+  } else {
+    sidebar.classList.toggle('collapsed');
+    if (main) main.classList.toggle('sidebar-collapsed');
+    localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+  }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  var saved = localStorage.getItem('sidebarCollapsed');
+  if (saved === 'true' && window.innerWidth >= 768) {
+    var sidebar = document.getElementById('sidebar');
+    var main = document.querySelector('.main-content');
+    if (sidebar) sidebar.classList.add('collapsed');
+    if (main) main.classList.add('sidebar-collapsed');
+  }
+});
 
 function formatCurrency(amount) {
   return '₱' + parseFloat(amount || 0).toLocaleString('en-PH', {

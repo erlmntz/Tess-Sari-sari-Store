@@ -16,6 +16,7 @@
   --seven-gray: #f4f6f9;
   --seven-border: #e2e8f0;
   --sidebar-width: 260px;
+  --sidebar-collapsed: 68px;
 }
 
 * {
@@ -46,7 +47,7 @@ body {
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, width 0.3s ease;
   overflow-y: auto;
 }
 
@@ -151,6 +152,7 @@ body {
   margin-left: var(--sidebar-width);
   padding: 24px;
   min-height: 100vh;
+  transition: margin-left 0.3s ease;
 }
 
 /* ============================================================
@@ -188,6 +190,65 @@ body {
 .sidebar-toggle {
   color: var(--seven-dark);
   padding: 0;
+  font-size: 1.3rem;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Collapsed sidebar (desktop) */
+.sidebar.collapsed {
+  width: var(--sidebar-collapsed);
+}
+
+.sidebar.collapsed .sidebar-header {
+  padding: 16px 8px;
+}
+
+.sidebar.collapsed .store-logo {
+  width: 42px;
+  height: 42px;
+  font-size: 20px;
+  border-radius: 12px;
+  margin-bottom: 0;
+}
+
+.sidebar.collapsed .store-name,
+.sidebar.collapsed .store-tagline {
+  display: none;
+}
+
+.sidebar.collapsed .sidebar-nav .nav-item a {
+  padding: 12px 0;
+  justify-content: center;
+  gap: 0;
+  border-left: none;
+}
+
+.sidebar.collapsed .sidebar-nav .nav-item a span,
+.sidebar.collapsed .sidebar-nav .nav-item a:not([href]) span {
+  display: none;
+}
+
+.sidebar.collapsed .nav-label {
+  display: none;
+}
+
+.sidebar.collapsed .sidebar-nav .nav-item a i {
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+.sidebar.collapsed .sidebar-footer {
+  padding: 8px;
+}
+
+.sidebar.collapsed .sidebar-footer small {
+  display: none;
+}
+
+.main-content.sidebar-collapsed {
+  margin-left: var(--sidebar-collapsed);
 }
 
 /* ============================================================
@@ -812,17 +873,23 @@ body {
 @media (max-width: 767.98px) {
   .sidebar {
     transform: translateX(-100%);
+    width: var(--sidebar-width) !important;
   }
 
   .sidebar.active {
     transform: translateX(0);
   }
 
+  .sidebar.collapsed {
+    transform: translateX(-100%);
+  }
+
   .sidebar-overlay.active {
     display: block;
   }
 
-  .main-content {
+  .main-content,
+  .main-content.sidebar-collapsed {
     margin-left: 0;
     padding: 16px;
   }
