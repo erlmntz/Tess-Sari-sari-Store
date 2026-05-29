@@ -201,6 +201,42 @@ function escapeHtml(text) {
   return div.innerHTML.replace(/'/g, "\\'");
 }
 
+function toggleCustomCategory(select) {
+  var customInput = document.getElementById('customCategory');
+  if (select.value === '__custom__') {
+    customInput.classList.remove('d-none');
+    customInput.focus();
+  } else {
+    customInput.classList.add('d-none');
+    customInput.value = '';
+  }
+}
+
+function getSelectedCategory() {
+  var select = document.getElementById('productCategory');
+  if (select.value === '__custom__') {
+    return document.getElementById('customCategory').value.trim();
+  }
+  return select.value;
+}
+
+function setProductCategory(category) {
+  var select = document.getElementById('productCategory');
+  var customInput = document.getElementById('customCategory');
+  var optionExists = Array.from(select.options).some(function(opt) {
+    return opt.value === category && opt.value !== '__custom__';
+  });
+  if (optionExists) {
+    select.value = category;
+    customInput.classList.add('d-none');
+    customInput.value = '';
+  } else {
+    select.value = '__custom__';
+    customInput.classList.remove('d-none');
+    customInput.value = category;
+  }
+}
+
 function openAddProduct() {
   document.getElementById('productModalTitle').textContent = 'Dagdag Produkto';
   document.getElementById('productForm').reset();
@@ -210,6 +246,8 @@ function openAddProduct() {
   document.getElementById('productImageFile').value = '';
   document.getElementById('imagePreview').style.display = 'none';
   document.getElementById('uploadProgress').style.display = 'none';
+  document.getElementById('customCategory').classList.add('d-none');
+  document.getElementById('customCategory').value = '';
   pendingImageFile = null;
   switchImageTab('upload');
 }
@@ -221,7 +259,7 @@ function openEditProduct(id) {
   document.getElementById('productModalTitle').textContent = 'I-edit ang Produkto';
   document.getElementById('productId').value = product.id;
   document.getElementById('productName').value = product.name;
-  document.getElementById('productCategory').value = product.category;
+  setProductCategory(product.category);
   document.getElementById('productUnit').value = product.unit;
   document.getElementById('productPrice').value = product.price;
   document.getElementById('productCost').value = product.cost;
@@ -265,7 +303,7 @@ async function saveProduct() {
 
   var productData = {
     name: document.getElementById('productName').value.trim(),
-    category: document.getElementById('productCategory').value,
+    category: getSelectedCategory(),
     unit: document.getElementById('productUnit').value,
     price: parseFloat(document.getElementById('productPrice').value) || 0,
     cost: parseFloat(document.getElementById('productCost').value) || 0,
@@ -277,6 +315,11 @@ async function saveProduct() {
 
   if (!productData.name) {
     showToast('Pakilagay ang pangalan ng produkto', 'error');
+    return;
+  }
+
+  if (!productData.category) {
+    showToast('Pakilagay ang kategorya ng produkto', 'error');
     return;
   }
 
