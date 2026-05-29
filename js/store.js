@@ -158,7 +158,10 @@ function getCategoryIcon(category) {
     'Rice & Essentials': 'bi-basket3-fill',
     'Bread & Pastries': 'bi-egg-fried',
     'Frozen': 'bi-snow',
-    'General': 'bi-bag-fill'
+    'General': 'bi-bag-fill',
+    'School Supplies': 'bi-pencil-fill',
+    'Personal Care': 'bi-heart-pulse-fill',
+    'Sweets': 'bi-stars'
   };
   return icons[category] || 'bi-bag-fill';
 }
@@ -197,14 +200,18 @@ function renderStoreGrid(products) {
     'Noodles': 'Noodles', 'Canned Goods': 'De Lata', 'Beverages': 'Inumin',
     'Coffee & Drinks': 'Kape', 'Snacks': 'Meryenda', 'Household': 'Gamit Bahay',
     'Cigarettes': 'Sigarilyo', 'Condiments': 'Sangkap', 'Rice & Essentials': 'Bigas',
-    'Bread & Pastries': 'Tinapay', 'Frozen': 'Frozen', 'General': 'Iba Pa'
+    'Bread & Pastries': 'Tinapay', 'Frozen': 'Frozen', 'General': 'Iba Pa',
+    'School Supplies': 'Gamit Pang-Eskwela', 'Personal Care': 'Pangangalaga',
+    'Sweets': 'Matamis'
   };
 
   var categoryIcons = {
     'Noodles': 'bi-cup-hot-fill', 'Canned Goods': 'bi-archive-fill', 'Beverages': 'bi-cup-straw',
     'Coffee & Drinks': 'bi-cup-fill', 'Snacks': 'bi-cookie', 'Household': 'bi-house-heart-fill',
     'Cigarettes': 'bi-wind', 'Condiments': 'bi-droplet-fill', 'Rice & Essentials': 'bi-basket3-fill',
-    'Bread & Pastries': 'bi-egg-fried', 'Frozen': 'bi-snow', 'General': 'bi-bag-fill'
+    'Bread & Pastries': 'bi-egg-fried', 'Frozen': 'bi-snow', 'General': 'bi-bag-fill',
+    'School Supplies': 'bi-pencil-fill', 'Personal Care': 'bi-heart-pulse-fill',
+    'Sweets': 'bi-stars'
   };
 
   var categories = Object.keys(grouped).sort();
