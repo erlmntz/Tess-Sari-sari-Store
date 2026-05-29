@@ -550,41 +550,99 @@ body {
   background: linear-gradient(135deg, var(--seven-green), #10b981);
   color: white;
   border: none;
-  padding: 16px 24px;
 }
 
 .seven-modal .modal-header .btn-close {
   filter: brightness(0) invert(1);
 }
 
+.seven-modal .modal-footer {
+  border-top: 1px solid #f1f5f9;
+  padding: 16px 28px;
+  gap: 12px;
+}
+
 .seven-modal .modal-body {
-  padding: 24px;
+  padding: 28px;
+}
+
+.seven-modal .modal-header {
+  padding: 18px 28px;
+}
+
+.seven-modal .modal-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.product-form-section {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.product-form-section-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--seven-green);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .seven-modal .form-label {
   font-weight: 600;
-  font-size: 0.85rem;
-  color: var(--seven-dark);
+  font-size: 0.82rem;
+  color: #475569;
+  margin-bottom: 6px;
 }
 
 .seven-modal .form-control,
 .seven-modal .form-select {
-  border-radius: var(--radius-sm);
-  border: 1.5px solid var(--seven-border);
+  border-radius: 8px;
+  border: 1.5px solid #cbd5e1;
   padding: 10px 14px;
-  font-size: 0.9rem;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  font-size: 0.92rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .seven-modal .form-control:focus,
 .seven-modal .form-select:focus {
   border-color: var(--seven-green);
-  box-shadow: 0 0 0 3px rgba(0, 112, 60, 0.12);
+  box-shadow: 0 0 0 3px rgba(0, 112, 60, 0.10);
 }
 
-.seven-modal .modal-footer {
-  border-top: 1px solid #f1f5f9;
-  padding: 12px 24px;
+.seven-modal .form-control-lg {
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.seven-modal .input-group-text {
+  background: #f1f5f9;
+  border: 1.5px solid #cbd5e1;
+  border-right: none;
+  font-weight: 600;
+  color: #64748b;
+  border-radius: 8px 0 0 8px;
+}
+
+.seven-modal .input-group .form-control {
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+}
+
+.seven-modal .btn-lg {
+  padding: 10px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 10px;
 }
 
 /* ============================================================
