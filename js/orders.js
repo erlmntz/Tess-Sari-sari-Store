@@ -148,6 +148,58 @@ async function updateOrderStatus(orderId, newStatus) {
     return;
   }
 
+  // When order is completed, record as sales and deduct inventory
+  if (newStatus === 'completed') {
+    await recordOrderAsSale(orderId);
+  }
+
   showToast('Na-update ang status ng order: ' + statusLabels[newStatus] + '!');
   await loadOrders();
+}
+
+async function recordOrderAsSale(orderId) {
+  // Get the order details
+  var { data: order, error: fetchError } = await supabase
+    .from('orders')
+    .select('*')
+    .eq('id', orderId)
+    .single();
+
+  if (fetchError || !order) return;
+
+  var items = order.items || [];
+
+  // Insert each item as a sale record
+  var salesData = items.map(function(item) {
+    return {
+      product_id: item.product_id,
+      product_name: item.name,
+      quantity: item.qty,
+      unit_price: item.price,
+      total: item.subtotal,
+      payment_type: 'cash',
+      customer_id: null
+    };
+  });
+
+  if (salesData.length > 0) {
+    await supabase.from('sales').insert(salesData);
+  }
+
+  // Deduct inventory for each item
+  for (var i = 0; i < items.length; i++) {
+    var item = items[i];
+    var { data: product } = await supabase
+      .from('products')
+      .select('quantity')
+      .eq('id', item.product_id)
+      .single();
+
+    if (product) {
+      var newQty = Math.max(0, product.quantity - item.qty);
+      await supabase.from('products')
+        .update({ quantity: newQty, updated_at: new Date().toISOString() })
+        .eq('id', item.product_id);
+    }
+  }
 }
