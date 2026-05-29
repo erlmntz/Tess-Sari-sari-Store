@@ -68,14 +68,12 @@ body {
 .store-logo {
   width: 70px;
   height: 70px;
-  background: linear-gradient(135deg, var(--seven-green), #10b981);
   border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 12px;
-  font-size: 32px;
-  color: white;
+  overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 112, 60, 0.4);
   animation: logoPulse 3s ease-in-out infinite;
 }
