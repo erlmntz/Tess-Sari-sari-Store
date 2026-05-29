@@ -66,7 +66,7 @@ function updateCreditStats() {
 
 function populateCustomerDropdown() {
   var select = document.getElementById('creditCustomer');
-  select.innerHTML = '<option value="">Select customer...</option>';
+  select.innerHTML = '<option value="">Pumili ng customer...</option>';
   allCustomers.forEach(function(c) {
     select.innerHTML += '<option value="' + c.id + '">' + c.name + '</option>';
   });
@@ -129,7 +129,7 @@ function renderCreditsList() {
   });
 
   if (entries.length === 0) {
-    container.innerHTML = '<div class="empty-state"><i class="bi bi-people"></i><p>No customers found</p></div>';
+    container.innerHTML = '<div class="empty-state"><i class="bi bi-people"></i><p>Walang customer na nahanap</p></div>';
     return;
   }
 
@@ -139,16 +139,16 @@ function renderCreditsList() {
 
     var creditRows = '';
     if (cust.credits.length === 0) {
-      creditRows = '<tr><td colspan="6" class="text-center text-muted py-2">No credits</td></tr>';
+      creditRows = '<tr><td colspan="6" class="text-center text-muted py-2">Walang utang</td></tr>';
     } else {
       creditRows = cust.credits.map(function(c) {
         var remaining = parseFloat(c.amount) - parseFloat(c.paid_amount || 0);
-        var statusBadge = c.is_paid ? '<span class="badge-paid">Paid</span>' : '<span class="badge-unpaid">₱' + remaining.toFixed(2) + ' left</span>';
+        var statusBadge = c.is_paid ? '<span class="badge-paid">Bayad na</span>' : '<span class="badge-unpaid">₱' + remaining.toFixed(2) + ' natitira</span>';
         var actions = '';
         if (!c.is_paid) {
-          actions = '<button class="action-btn action-btn-pay" title="Record Payment" onclick="openPayment(\'' + c.id + '\', \'' + escapeHtmlCredits(c.description || 'Utang') + '\', ' + c.amount + ', ' + (c.paid_amount || 0) + ')"><i class="bi bi-cash"></i></button>';
+          actions = '<button class="action-btn action-btn-pay" title="Irekord ang Bayad" onclick="openPayment(\'' + c.id + '\', \'' + escapeHtmlCredits(c.description || 'Utang') + '\', ' + c.amount + ', ' + (c.paid_amount || 0) + ')"><i class="bi bi-cash"></i></button>';
         }
-        actions += '<button class="action-btn action-btn-delete" title="Delete" onclick="deleteCredit(\'' + c.id + '\')"><i class="bi bi-trash"></i></button>';
+        actions += '<button class="action-btn action-btn-delete" title="I-delete" onclick="deleteCredit(\'' + c.id + '\')"><i class="bi bi-trash"></i></button>';
 
         return '<tr>' +
           '<td>' + (c.description || '-') + '</td>' +
@@ -169,14 +169,14 @@ function renderCreditsList() {
         '</div>' +
         '<div class="text-end">' +
           '<div class="total-utang">' + formatCurrency(cust.totalUnpaid) + '</div>' +
-          '<small style="color:rgba(255,255,255,0.5)">Total Utang</small>' +
+          '<small style="color:rgba(255,255,255,0.5)">Kabuuang Utang</small>' +
         '</div>' +
       '</div>' +
       '<div class="customer-credit-body">' +
         '<div class="table-responsive">' +
           '<table class="table table-hover mb-0">' +
             '<thead><tr>' +
-              '<th>Description</th><th>Amount</th><th>Paid</th><th>Date</th><th>Status</th><th class="text-center">Actions</th>' +
+              '<th>Deskripsyon</th><th>Halaga</th><th>Bayad</th><th>Petsa</th><th>Kalagayan</th><th class="text-center">Aksyon</th>' +
             '</tr></thead>' +
             '<tbody>' + creditRows + '</tbody>' +
           '</table>' +
@@ -195,7 +195,7 @@ function escapeHtmlCredits(text) {
 // ---- Customer CRUD ----
 
 function openAddCustomer() {
-  document.getElementById('customerModalTitle').textContent = 'Add Customer';
+  document.getElementById('customerModalTitle').textContent = 'Dagdag Customer';
   document.getElementById('customerForm').reset();
   document.getElementById('customerId').value = '';
 }
@@ -211,7 +211,7 @@ async function saveCustomer() {
   };
 
   if (!data.name) {
-    showToast('Please enter customer name', 'error');
+    showToast('Pakilagay ang pangalan ng customer', 'error');
     return;
   }
 
@@ -228,14 +228,14 @@ async function saveCustomer() {
   }
 
   bootstrap.Modal.getInstance(document.getElementById('customerModal')).hide();
-  showToast(id ? 'Customer updated!' : 'Customer added!');
+  showToast(id ? 'Na-update ang customer!' : 'Naidagdag ang customer!');
   await loadAllData();
 }
 
 // ---- Credit CRUD ----
 
 function openAddCredit() {
-  document.getElementById('creditModalTitle').textContent = 'Add Utang';
+  document.getElementById('creditModalTitle').textContent = 'Dagdag Utang';
   document.getElementById('creditForm').reset();
   document.getElementById('creditId').value = '';
   document.getElementById('creditDate').value = new Date().toISOString().split('T')[0];
@@ -255,12 +255,12 @@ async function saveCredit() {
   };
 
   if (!data.customer_id) {
-    showToast('Please select a customer', 'error');
+    showToast('Pumili muna ng customer', 'error');
     return;
   }
 
   if (data.amount <= 0) {
-    showToast('Please enter a valid amount', 'error');
+    showToast('Pakilagay ang tamang halaga', 'error');
     return;
   }
 
@@ -278,12 +278,12 @@ async function saveCredit() {
   }
 
   bootstrap.Modal.getInstance(document.getElementById('creditModal')).hide();
-  showToast('Utang recorded!');
+  showToast('Nairekord ang utang!');
   await loadAllData();
 }
 
 async function deleteCredit(id) {
-  if (!confirm('Delete this credit entry?')) return;
+  if (!confirm('I-delete ang utang na ito?')) return;
 
   var { error } = await supabase.from('credits').delete().eq('id', id);
   if (error) {
@@ -291,7 +291,7 @@ async function deleteCredit(id) {
     return;
   }
 
-  showToast('Credit deleted!');
+  showToast('Na-delete ang utang!');
   await loadAllData();
 }
 
@@ -335,12 +335,12 @@ async function recordPayment() {
   var remaining = totalAmount - paidSoFar;
 
   if (payAmount <= 0) {
-    showToast('Please enter a valid payment amount', 'error');
+    showToast('Pakilagay ang tamang halaga ng bayad', 'error');
     return;
   }
 
   if (payAmount > remaining) {
-    showToast('Payment exceeds remaining balance', 'error');
+    showToast('Lampas sa natitirang utang ang bayad', 'error');
     return;
   }
 
@@ -365,6 +365,6 @@ async function recordPayment() {
   }
 
   bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
-  showToast(isPaid ? 'Fully paid! Salamat!' : 'Payment of ' + formatCurrency(payAmount) + ' recorded!');
+  showToast(isPaid ? 'Fully paid! Salamat!' : 'Nabayaran ang ' + formatCurrency(payAmount) + '!');
   await loadAllData();
 }

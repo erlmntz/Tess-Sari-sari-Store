@@ -68,13 +68,13 @@ async function loadLowStock() {
 
   const tbody = document.getElementById('lowStockTable');
   if (lowStock.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted py-3"><i class="bi bi-check-circle text-success"></i> All items are well-stocked!</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted py-3"><i class="bi bi-check-circle text-success"></i> Lahat ng produkto ay may sapat na stock!</td></tr>';
     return;
   }
 
   tbody.innerHTML = lowStock.map(function(p) {
     var statusClass = p.quantity === 0 ? 'badge-stock-out' : 'badge-stock-low';
-    var statusText = p.quantity === 0 ? 'Out of Stock' : 'Low Stock';
+    var statusText = p.quantity === 0 ? 'Ubos na' : 'Mababang Stock';
     return '<tr>' +
       '<td class="fw-semibold">' + p.name + '</td>' +
       '<td>' + p.quantity + ' ' + p.unit + '</td>' +
@@ -104,7 +104,7 @@ async function loadTopCredits() {
 
   var tbody = document.getElementById('topCreditsTable');
   if (sorted.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted py-3"><i class="bi bi-check-circle text-success"></i> No outstanding credits!</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted py-3"><i class="bi bi-check-circle text-success"></i> Walang natitirang utang!</td></tr>';
     return;
   }
 
@@ -112,7 +112,7 @@ async function loadTopCredits() {
     return '<tr>' +
       '<td class="fw-semibold">' + entry[0] + '</td>' +
       '<td class="text-danger fw-bold">' + formatCurrency(entry[1]) + '</td>' +
-      '<td><span class="badge-unpaid">Unpaid</span></td>' +
+      '<td><span class="badge-unpaid">Hindi pa Bayad</span></td>' +
       '</tr>';
   }).join('');
 }
@@ -126,7 +126,7 @@ async function loadRecentSales() {
 
   var tbody = document.getElementById('recentSalesTable');
   if (!sales || sales.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-3">No sales yet today</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-3">Wala pang benta ngayon</td></tr>';
     return;
   }
 

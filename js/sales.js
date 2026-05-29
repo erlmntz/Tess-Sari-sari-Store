@@ -39,7 +39,7 @@ async function loadSaleData() {
 
 function loadCustomerSelect() {
   var select = document.getElementById('saleCustomer');
-  select.innerHTML = '<option value="">Select customer...</option>';
+  select.innerHTML = '<option value="">Pumili ng customer...</option>';
   saleCustomers.forEach(function(c) {
     select.innerHTML += '<option value="' + c.id + '">' + c.name + '</option>';
   });
@@ -57,13 +57,13 @@ function renderProductGrid(products) {
   var grid = document.getElementById('productGrid');
 
   if (products.length === 0) {
-    grid.innerHTML = '<div class="empty-state"><i class="bi bi-search"></i><p>No products found</p></div>';
+    grid.innerHTML = '<div class="empty-state"><i class="bi bi-search"></i><p>Walang produkto na nahanap</p></div>';
     return;
   }
 
   grid.innerHTML = products.map(function(p) {
     var outClass = p.quantity <= 0 ? ' out-of-stock' : '';
-    var stockText = p.quantity <= 0 ? 'Out of stock' : p.quantity + ' ' + p.unit + ' left';
+    var stockText = p.quantity <= 0 ? 'Ubos na' : p.quantity + ' ' + p.unit + ' natitira';
     return '<div class="product-tile' + outClass + '" onclick="addToCart(\'' + p.id + '\')">' +
       '<div class="product-tile-name">' + p.name + '</div>' +
       '<div class="product-tile-price">' + formatCurrency(p.price) + '</div>' +
@@ -79,7 +79,7 @@ function addToCart(productId) {
   var existing = cart.find(function(item) { return item.product_id === productId; });
   if (existing) {
     if (existing.quantity >= product.quantity) {
-      showToast('Not enough stock for ' + product.name, 'warning');
+      showToast('Kulang ang stock ng ' + product.name, 'warning');
       return;
     }
     existing.quantity++;
@@ -96,7 +96,7 @@ function addToCart(productId) {
   }
 
   renderCart();
-  showToast(product.name + ' added to cart');
+  showToast(product.name + ' naidagdag sa cart');
 }
 
 function updateCartQty(productId, delta) {
@@ -109,7 +109,7 @@ function updateCartQty(productId, delta) {
     return;
   }
   if (newQty > item.max_qty) {
-    showToast('Not enough stock', 'warning');
+    showToast('Kulang ang stock', 'warning');
     return;
   }
 
@@ -129,7 +129,7 @@ function renderCart() {
   var btn = document.getElementById('completeSaleBtn');
 
   if (cart.length === 0) {
-    container.innerHTML = '<div class="text-center text-muted py-3">No items in cart</div>';
+    container.innerHTML = '<div class="text-center text-muted py-3">Walang laman ang cart</div>';
     totalEl.textContent = '₱0.00';
     btn.disabled = true;
     return;
@@ -144,7 +144,7 @@ function renderCart() {
     return '<div class="cart-item">' +
       '<div class="cart-item-info">' +
         '<div class="cart-item-name">' + item.product_name + '</div>' +
-        '<div class="cart-item-price">' + formatCurrency(item.unit_price) + ' each</div>' +
+        '<div class="cart-item-price">' + formatCurrency(item.unit_price) + ' bawat isa</div>' +
       '</div>' +
       '<div class="cart-item-qty">' +
         '<button onclick="updateCartQty(\'' + item.product_id + '\', -1)">-</button>' +
@@ -166,7 +166,7 @@ async function completeSale() {
   if (paymentType === 'credit') {
     customerId = document.getElementById('saleCustomer').value;
     if (!customerId) {
-      showToast('Please select a customer for credit/utang', 'error');
+      showToast('Pumili muna ng customer para sa utang', 'error');
       return;
     }
   }
@@ -186,7 +186,7 @@ async function completeSale() {
 
   var { error: salesError } = await supabase.from('sales').insert(salesData);
   if (salesError) {
-    showToast('Error recording sale: ' + salesError.message, 'error');
+    showToast('Hindi nairekord ang benta: ' + salesError.message, 'error');
     return;
   }
 
@@ -219,7 +219,7 @@ async function completeSale() {
     });
   }
 
-  showToast('Sale completed! ' + (paymentType === 'credit' ? '(Utang recorded)' : '(Cash)'));
+  showToast('Nairekord ang benta! ' + (paymentType === 'credit' ? '(Utang nairekord)' : '(Cash)'));
   cart = [];
   renderCart();
   await loadSaleData();

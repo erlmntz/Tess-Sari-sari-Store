@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inventory - Sari-Sari Store POS</title>
+  <title>Imbentaryo - Tess Sari-Sari Store</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,32 +17,32 @@
       <div class="store-logo">
         <i class="bi bi-shop"></i>
       </div>
-      <h5 class="store-name">Sari-Sari Store</h5>
-      <small class="store-tagline">Inventory & Credit System</small>
+      <h5 class="store-name">Tess Sari-Sari Store</h5>
+      <small class="store-tagline">Sistema ng Tindahan</small>
     </div>
     <ul class="sidebar-nav">
       <li class="nav-item">
-        <a href="index.html"><i class="bi bi-grid-1x2-fill"></i> <span class="nav-label">Dashboard</span></a>
+        <a href="index.html"><i class="bi bi-grid-1x2-fill"></i> <span class="nav-label">Buod</span></a>
       </li>
       <li class="nav-item active">
-        <a href="inventory.html"><i class="bi bi-box-seam-fill"></i> <span class="nav-label">Inventory</span></a>
+        <a href="inventory.html"><i class="bi bi-box-seam-fill"></i> <span class="nav-label">Imbentaryo</span></a>
       </li>
       <li class="nav-item">
-        <a href="credits.html"><i class="bi bi-credit-card-fill"></i> <span class="nav-label">Credits / Utang</span></a>
+        <a href="credits.html"><i class="bi bi-credit-card-fill"></i> <span class="nav-label">Utang</span></a>
       </li>
       <li class="nav-item">
-        <a href="sales.html"><i class="bi bi-cart-fill"></i> <span class="nav-label">New Sale</span></a>
+        <a href="sales.html"><i class="bi bi-cart-fill"></i> <span class="nav-label">Bagong Benta</span></a>
       </li>
       <li class="nav-item">
-        <a href="orders.html"><i class="bi bi-bag-check-fill"></i> <span class="nav-label">Pickup Orders</span></a>
+        <a href="orders.html"><i class="bi bi-bag-check-fill"></i> <span class="nav-label">Mga Order</span></a>
       </li>
       <li class="nav-item">
-        <a href="../index.html" target="_blank"><i class="bi bi-shop"></i> <span class="nav-label">View Store</span></a>
+        <a href="../index.html" target="_blank"><i class="bi bi-shop"></i> <span class="nav-label">Tingnan Tindahan</span></a>
       </li>
     </ul>
     <div class="sidebar-footer">
       <div class="seven-stripe"></div>
-      <small>&copy; 2025 Sari-Sari Store POS</small>
+      <small>&copy; 2025 Tess Sari-Sari Store</small>
     </div>
   </nav>
 
@@ -52,10 +52,10 @@
       <button class="btn btn-link sidebar-toggle" onclick="toggleSidebar()">
         <i class="bi bi-list fs-4"></i>
       </button>
-      <h4 class="page-title"><i class="bi bi-box-seam-fill"></i> Inventory</h4>
+      <h4 class="page-title"><i class="bi bi-box-seam-fill"></i> Imbentaryo</h4>
       <div class="topbar-right">
         <button class="btn btn-seven-green" data-bs-toggle="modal" data-bs-target="#productModal" onclick="openAddProduct()">
-          <i class="bi bi-plus-circle"></i> Add Product
+          <i class="bi bi-plus-circle"></i> Dagdag Produkto
         </button>
       </div>
     </div>
@@ -65,20 +65,20 @@
       <div class="col-md-4">
         <div class="input-group">
           <span class="input-group-text bg-seven-green text-white"><i class="bi bi-search"></i></span>
-          <input type="text" class="form-control" id="searchProduct" placeholder="Search products..." oninput="filterProducts()">
+          <input type="text" class="form-control" id="searchProduct" placeholder="Maghanap ng produkto..." oninput="filterProducts()">
         </div>
       </div>
       <div class="col-md-3">
         <select class="form-select" id="filterCategory" onchange="filterProducts()">
-          <option value="">All Categories</option>
+          <option value="">Lahat ng Kategorya</option>
         </select>
       </div>
       <div class="col-md-3">
         <select class="form-select" id="filterStock" onchange="filterProducts()">
-          <option value="">All Stock Levels</option>
-          <option value="low">Low Stock</option>
-          <option value="out">Out of Stock</option>
-          <option value="ok">In Stock</option>
+          <option value="">Lahat ng Stock</option>
+          <option value="low">Mababang Stock</option>
+          <option value="out">Ubos na</option>
+          <option value="ok">May Stock</option>
         </select>
       </div>
     </div>
@@ -91,18 +91,18 @@
             <thead>
               <tr>
                 <th style="width:50px">Image</th>
-                <th>Product Name</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Cost</th>
+                <th>Pangalan</th>
+                <th>Kategorya</th>
+                <th>Presyo</th>
+                <th>Puhunan</th>
                 <th>Stock</th>
-                <th>Unit</th>
-                <th>Status</th>
-                <th class="text-center">Actions</th>
+                <th>Yunit</th>
+                <th>Kalagayan</th>
+                <th class="text-center">Aksyon</th>
               </tr>
             </thead>
             <tbody id="productsTable">
-              <tr><td colspan="9" class="text-center text-muted py-4">Loading products...</td></tr>
+              <tr><td colspan="9" class="text-center text-muted py-4">Nag-loload ng produkto...</td></tr>
             </tbody>
           </table>
         </div>
@@ -122,12 +122,12 @@
           <form id="productForm">
             <input type="hidden" id="productId">
             <div class="mb-3">
-              <label class="form-label">Product Name</label>
+              <label class="form-label">Pangalan ng Produkto</label>
               <input type="text" class="form-control" id="productName" required>
             </div>
             <div class="row g-3 mb-3">
               <div class="col-6">
-                <label class="form-label">Category</label>
+                <label class="form-label">Kategorya</label>
                 <select class="form-select" id="productCategory">
                   <option value="Noodles">Noodles</option>
                   <option value="Canned Goods">Canned Goods</option>
@@ -144,7 +144,7 @@
                 </select>
               </div>
               <div class="col-6">
-                <label class="form-label">Unit</label>
+                <label class="form-label">Yunit</label>
                 <select class="form-select" id="productUnit">
                   <option value="pc">Piece (pc)</option>
                   <option value="sachet">Sachet</option>
@@ -159,41 +159,41 @@
             </div>
             <div class="row g-3 mb-3">
               <div class="col-6">
-                <label class="form-label">Selling Price (₱)</label>
+                <label class="form-label">Presyo ng Benta (₱)</label>
                 <input type="number" class="form-control" id="productPrice" step="0.50" min="0" required>
               </div>
               <div class="col-6">
-                <label class="form-label">Cost Price (₱)</label>
+                <label class="form-label">Puhunan (₱)</label>
                 <input type="number" class="form-control" id="productCost" step="0.50" min="0" required>
               </div>
             </div>
             <div class="row g-3 mb-3">
               <div class="col-6">
-                <label class="form-label">Quantity</label>
+                <label class="form-label">Dami</label>
                 <input type="number" class="form-control" id="productQuantity" min="0" required>
               </div>
               <div class="col-6">
-                <label class="form-label">Low Stock Alert</label>
+                <label class="form-label">Babala ng Stock</label>
                 <input type="number" class="form-control" id="productThreshold" min="1" value="5">
               </div>
             </div>
             <div class="mb-3">
-              <label class="form-label"><i class="bi bi-image"></i> Product Image</label>
+              <label class="form-label"><i class="bi bi-image"></i> Larawan ng Produkto</label>
               <div class="d-flex gap-2 mb-2">
                 <button type="button" class="btn btn-sm btn-outline-primary active" id="btnUploadTab" onclick="switchImageTab('upload')">
-                  <i class="bi bi-upload"></i> Upload File
+                  <i class="bi bi-upload"></i> I-upload
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-secondary" id="btnUrlTab" onclick="switchImageTab('url')">
-                  <i class="bi bi-link-45deg"></i> Paste URL
+                  <i class="bi bi-link-45deg"></i> I-paste ang URL
                 </button>
               </div>
               <div id="uploadTab">
                 <input type="file" class="form-control" id="productImageFile" accept="image/*" onchange="previewFileImage(this)">
-                <div class="form-text">Upload image from your computer (JPG, PNG, WebP)</div>
+                <div class="form-text">I-upload mula sa iyong computer (JPG, PNG, WebP)</div>
               </div>
               <div id="urlTab" style="display:none">
                 <input type="url" class="form-control" id="productImageUrl" placeholder="https://cdn.shopify.com/... or paste any image URL">
-                <div class="form-text">Paste a direct link to the product image</div>
+                <div class="form-text">I-paste ang link ng larawan</div>
               </div>
               <div id="imagePreview" class="mt-2" style="display:none">
                 <img id="imagePreviewImg" src="" alt="Preview" style="max-width:120px;max-height:120px;object-fit:contain;border:2px solid #e2e8f0;border-radius:8px;padding:4px;background:#fff">
@@ -203,15 +203,15 @@
                 <div class="progress" style="height:6px">
                   <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width:100%"></div>
                 </div>
-                <small class="text-muted">Uploading image...</small>
+                <small class="text-muted">Nag-a-upload ng larawan...</small>
               </div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kanselahin</button>
           <button type="button" class="btn btn-seven-green" onclick="saveProduct()">
-            <i class="bi bi-check-circle"></i> Save Product
+            <i class="bi bi-check-circle"></i> I-save ang Produkto
           </button>
         </div>
       </div>
@@ -223,22 +223,22 @@
     <div class="modal-dialog modal-sm">
       <div class="modal-content seven-modal">
         <div class="modal-header">
-          <h5 class="modal-title">Restock Product</h5>
+          <h5 class="modal-title">Dagdagan ang Stock</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
           <p class="fw-semibold" id="restockProductName"></p>
-          <p class="text-muted small">Current stock: <span id="restockCurrentQty"></span></p>
+          <p class="text-muted small">Kasalukuyang stock: <span id="restockCurrentQty"></span></p>
           <input type="hidden" id="restockProductId">
           <div class="mb-3">
-            <label class="form-label">Add Quantity</label>
+            <label class="form-label">Dagdag na Dami</label>
             <input type="number" class="form-control" id="restockQty" min="1" value="1">
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kanselahin</button>
           <button type="button" class="btn btn-seven-orange" onclick="restockProduct()">
-            <i class="bi bi-plus-circle"></i> Restock
+            <i class="bi bi-plus-circle"></i> Dagdagan
           </button>
         </div>
       </div>

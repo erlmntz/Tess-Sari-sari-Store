@@ -5,10 +5,78 @@
 var storeProducts = [];
 var storeCart = [];
 var selectedCategory = '';
+var customerInfo = null;
+var pendingProductId = null;
 
 document.addEventListener('DOMContentLoaded', async function() {
+  loadCustomerFromStorage();
   await loadStoreProducts();
 });
+
+// ---- Customer Verification ----
+
+function loadCustomerFromStorage() {
+  var saved = localStorage.getItem('storeCustomerInfo');
+  if (saved) {
+    customerInfo = JSON.parse(saved);
+    showCustomerBar();
+  }
+}
+
+function showCustomerBar() {
+  if (!customerInfo) return;
+  document.getElementById('customerDisplayName').textContent = customerInfo.name;
+  document.getElementById('customerDisplayPhone').textContent = customerInfo.phone;
+  document.getElementById('customerInfoBar').style.display = 'block';
+}
+
+function requireCustomerInfo(productId) {
+  pendingProductId = productId;
+  var saved = localStorage.getItem('storeCustomerInfo');
+  if (saved) {
+    var info = JSON.parse(saved);
+    document.getElementById('verifyName').value = info.name;
+    document.getElementById('verifyPhone').value = info.phone;
+  }
+  var modal = new bootstrap.Modal(document.getElementById('customerVerifyModal'));
+  modal.show();
+}
+
+function saveCustomerInfo() {
+  var name = document.getElementById('verifyName').value.trim();
+  var phone = document.getElementById('verifyPhone').value.trim();
+
+  if (!name) {
+    showStoreToast('Pakilagay ang pangalan mo!');
+    return;
+  }
+  if (!phone) {
+    showStoreToast('Pakilagay ang phone number mo!');
+    return;
+  }
+
+  customerInfo = { name: name, phone: phone };
+  localStorage.setItem('storeCustomerInfo', JSON.stringify(customerInfo));
+  showCustomerBar();
+
+  bootstrap.Modal.getInstance(document.getElementById('customerVerifyModal')).hide();
+  showStoreToast('Salamat, ' + name + '!');
+
+  if (pendingProductId) {
+    var pid = pendingProductId;
+    pendingProductId = null;
+    addToStoreCart(pid);
+  }
+}
+
+function clearCustomerInfo() {
+  customerInfo = null;
+  localStorage.removeItem('storeCustomerInfo');
+  document.getElementById('customerInfoBar').style.display = 'none';
+  storeCart = [];
+  updateCartUI();
+  showStoreToast('Na-logout ka na.');
+}
 
 // ---- Load Products ----
 
@@ -118,7 +186,48 @@ function renderStoreGrid(products) {
     return;
   }
 
-  grid.innerHTML = products.map(function(p) {
+  // Group by category
+  var grouped = {};
+  products.forEach(function(p) {
+    if (!grouped[p.category]) grouped[p.category] = [];
+    grouped[p.category].push(p);
+  });
+
+  var categoryLabels = {
+    'Noodles': 'Noodles', 'Canned Goods': 'De Lata', 'Beverages': 'Inumin',
+    'Coffee & Drinks': 'Kape', 'Snacks': 'Meryenda', 'Household': 'Gamit Bahay',
+    'Cigarettes': 'Sigarilyo', 'Condiments': 'Sangkap', 'Rice & Essentials': 'Bigas',
+    'Bread & Pastries': 'Tinapay', 'Frozen': 'Frozen', 'General': 'Iba Pa'
+  };
+
+  var categoryIcons = {
+    'Noodles': 'bi-cup-hot-fill', 'Canned Goods': 'bi-archive-fill', 'Beverages': 'bi-cup-straw',
+    'Coffee & Drinks': 'bi-cup-fill', 'Snacks': 'bi-cookie', 'Household': 'bi-house-heart-fill',
+    'Cigarettes': 'bi-wind', 'Condiments': 'bi-droplet-fill', 'Rice & Essentials': 'bi-basket3-fill',
+    'Bread & Pastries': 'bi-egg-fried', 'Frozen': 'bi-snow', 'General': 'bi-bag-fill'
+  };
+
+  var categories = Object.keys(grouped).sort();
+  var html = '';
+
+  categories.forEach(function(cat) {
+    var label = categoryLabels[cat] || cat;
+    var icon = categoryIcons[cat] || 'bi-bag-fill';
+    html += '<div class="category-section">' +
+      '<h3 class="category-title"><i class="bi ' + icon + '"></i> ' + label + ' <span class="category-count">' + grouped[cat].length + '</span></h3>' +
+      '<div class="product-grid">';
+
+    grouped[cat].forEach(function(p) {
+      html += renderProductCard(p);
+    });
+
+    html += '</div></div>';
+  });
+
+  grid.innerHTML = html;
+}
+
+function renderProductCard(p) {
     var isOut = p.quantity <= 0;
     var isLow = p.quantity > 0 && p.quantity <= p.low_stock_threshold;
     var outClass = isOut ? ' out-of-stock' : '';
@@ -147,12 +256,16 @@ function renderStoreGrid(products) {
         '<div class="stock-info' + stockClass + '">' + stockText + '</div>' +
       '</div>' +
     '</div>';
-  }).join('');
 }
 
 // ---- Cart ----
 
 function addToStoreCart(productId) {
+  if (!customerInfo) {
+    requireCustomerInfo(productId);
+    return;
+  }
+
   var product = storeProducts.find(function(p) { return p.id === productId; });
   if (!product || product.quantity <= 0) return;
 
@@ -277,6 +390,12 @@ function openCheckout() {
 
   // Close cart sidebar
   toggleCart();
+
+  // Auto-fill customer info from verification
+  if (customerInfo) {
+    document.getElementById('checkoutName').value = customerInfo.name;
+    document.getElementById('checkoutPhone').value = customerInfo.phone;
+  }
 
   // Build order summary
   var summary = document.getElementById('orderSummary');

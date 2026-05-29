@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - Sari-Sari Store POS</title>
+  <title>Buod - Tess Sari-Sari Store</title>
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
@@ -20,32 +20,32 @@
       <div class="store-logo">
         <i class="bi bi-shop"></i>
       </div>
-      <h5 class="store-name">Sari-Sari Store</h5>
-      <small class="store-tagline">Inventory & Credit System</small>
+      <h5 class="store-name">Tess Sari-Sari Store</h5>
+      <small class="store-tagline">Sistema ng Tindahan</small>
     </div>
     <ul class="sidebar-nav">
       <li class="nav-item active">
-        <a href="index.html"><i class="bi bi-grid-1x2-fill"></i> <span class="nav-label">Dashboard</span></a>
+        <a href="index.html"><i class="bi bi-grid-1x2-fill"></i> <span class="nav-label">Buod</span></a>
       </li>
       <li class="nav-item">
-        <a href="inventory.html"><i class="bi bi-box-seam-fill"></i> <span class="nav-label">Inventory</span></a>
+        <a href="inventory.html"><i class="bi bi-box-seam-fill"></i> <span class="nav-label">Imbentaryo</span></a>
       </li>
       <li class="nav-item">
-        <a href="credits.html"><i class="bi bi-credit-card-fill"></i> <span class="nav-label">Credits / Utang</span></a>
+        <a href="credits.html"><i class="bi bi-credit-card-fill"></i> <span class="nav-label">Utang</span></a>
       </li>
       <li class="nav-item">
-        <a href="sales.html"><i class="bi bi-cart-fill"></i> <span class="nav-label">New Sale</span></a>
+        <a href="sales.html"><i class="bi bi-cart-fill"></i> <span class="nav-label">Bagong Benta</span></a>
       </li>
       <li class="nav-item">
-        <a href="orders.html"><i class="bi bi-bag-check-fill"></i> <span class="nav-label">Pickup Orders</span></a>
+        <a href="orders.html"><i class="bi bi-bag-check-fill"></i> <span class="nav-label">Mga Order</span></a>
       </li>
       <li class="nav-item">
-        <a href="../index.html" target="_blank"><i class="bi bi-shop"></i> <span class="nav-label">View Store</span></a>
+        <a href="../index.html" target="_blank"><i class="bi bi-shop"></i> <span class="nav-label">Tingnan Tindahan</span></a>
       </li>
     </ul>
     <div class="sidebar-footer">
       <div class="seven-stripe"></div>
-      <small>&copy; 2025 Sari-Sari Store POS</small>
+      <small>&copy; 2025 Tess Sari-Sari Store</small>
     </div>
   </nav>
 
@@ -56,7 +56,7 @@
       <button class="btn btn-link sidebar-toggle" onclick="toggleSidebar()">
         <i class="bi bi-list fs-4"></i>
       </button>
-      <h4 class="page-title"><i class="bi bi-grid-1x2-fill"></i> Dashboard</h4>
+      <h4 class="page-title"><i class="bi bi-grid-1x2-fill"></i> Buod ng Tindahan</h4>
       <div class="topbar-right">
         <span class="badge bg-seven-green" id="currentDate"></span>
       </div>
@@ -69,7 +69,7 @@
           <div class="stat-icon"><i class="bi bi-box-seam-fill"></i></div>
           <div class="stat-info">
             <span class="stat-value" id="totalProducts">0</span>
-            <span class="stat-label">Total Products</span>
+            <span class="stat-label">Mga Produkto</span>
           </div>
         </div>
       </div>
@@ -78,7 +78,7 @@
           <div class="stat-icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
           <div class="stat-info">
             <span class="stat-value" id="lowStockCount">0</span>
-            <span class="stat-label">Low Stock Items</span>
+            <span class="stat-label">Mababang Stock</span>
           </div>
         </div>
       </div>
@@ -87,7 +87,7 @@
           <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
           <div class="stat-info">
             <span class="stat-value" id="totalCredits">₱0</span>
-            <span class="stat-label">Total Utang</span>
+            <span class="stat-label">Kabuuang Utang</span>
           </div>
         </div>
       </div>
@@ -96,28 +96,28 @@
           <div class="stat-icon"><i class="bi bi-cash-stack"></i></div>
           <div class="stat-info">
             <span class="stat-value" id="todaySales">₱0</span>
-            <span class="stat-label">Today's Sales</span>
+            <span class="stat-label">Benta Ngayon</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Low Stock Alert & Recent Credits -->
+    <!-- Babala: Mababang Stock & Recent Credits -->
     <div class="row g-3 mb-4">
-      <!-- Low Stock Alert -->
+      <!-- Babala: Mababang Stock -->
       <div class="col-lg-6">
         <div class="card seven-card">
           <div class="card-header seven-card-header">
-            <i class="bi bi-exclamation-triangle-fill text-warning"></i> Low Stock Alert
+            <i class="bi bi-exclamation-triangle-fill text-warning"></i> Babala: Mababang Stock
           </div>
           <div class="card-body p-0">
             <div class="table-responsive">
               <table class="table table-hover mb-0">
                 <thead>
                   <tr>
-                    <th>Product</th>
+                    <th>Produkto</th>
                     <th>Stock</th>
-                    <th>Status</th>
+                    <th>Kalagayan</th>
                   </tr>
                 </thead>
                 <tbody id="lowStockTable">
@@ -133,7 +133,7 @@
       <div class="col-lg-6">
         <div class="card seven-card">
           <div class="card-header seven-card-header">
-            <i class="bi bi-credit-card-fill text-danger"></i> Top Utang (Credits)
+            <i class="bi bi-credit-card-fill text-danger"></i> Pinakamataas na Utang
           </div>
           <div class="card-body p-0">
             <div class="table-responsive">
@@ -141,8 +141,8 @@
                 <thead>
                   <tr>
                     <th>Customer</th>
-                    <th>Total Utang</th>
-                    <th>Status</th>
+                    <th>Kabuuang Utang</th>
+                    <th>Kalagayan</th>
                   </tr>
                 </thead>
                 <tbody id="topCreditsTable">
@@ -155,23 +155,23 @@
       </div>
     </div>
 
-    <!-- Recent Sales -->
+    <!-- Mga Kamakailang Benta -->
     <div class="row g-3">
       <div class="col-12">
         <div class="card seven-card">
           <div class="card-header seven-card-header">
-            <i class="bi bi-clock-history"></i> Recent Sales
+            <i class="bi bi-clock-history"></i> Mga Kamakailang Benta
           </div>
           <div class="card-body p-0">
             <div class="table-responsive">
               <table class="table table-hover mb-0">
                 <thead>
                   <tr>
-                    <th>Product</th>
-                    <th>Qty</th>
-                    <th>Total</th>
-                    <th>Payment</th>
-                    <th>Date</th>
+                    <th>Produkto</th>
+                    <th>Dami</th>
+                    <th>Kabuuan</th>
+                    <th>Bayad</th>
+                    <th>Petsa</th>
                   </tr>
                 </thead>
                 <tbody id="recentSalesTable">
