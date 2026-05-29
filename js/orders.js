@@ -22,7 +22,7 @@ async function loadOrders() {
   var { data, error } = await query;
 
   if (error) {
-    showToast('Error loading orders: ' + error.message, 'error');
+    showToast('Hindi na-load ang mga order: ' + error.message, 'error');
     return;
   }
 
@@ -82,10 +82,10 @@ function renderOrders(orders) {
             (order.notes ? '<div class="text-muted small mt-1"><i class="bi bi-chat-left-text-fill"></i> ' + order.notes + '</div>' : '') +
           '</div>' +
           '<div class="col-md-5">' +
-            '<div class="small fw-semibold mb-1">Items:</div>' +
+            '<div class="small fw-semibold mb-1">Mga Item:</div>' +
             itemsList +
             '<div style="border-top:1px dashed #ddd;margin-top:6px;padding-top:6px;font-weight:700;display:flex;justify-content:space-between">' +
-              '<span>Total</span><span class="text-success">' + formatCurrency(order.total) + '</span>' +
+              '<span>Kabuuan</span><span class="text-success">' + formatCurrency(order.total) + '</span>' +
             '</div>' +
           '</div>' +
           '<div class="col-md-3 text-end">' +
@@ -99,11 +99,11 @@ function renderOrders(orders) {
 
 function getStatusBadge(status) {
   var badges = {
-    'pending': '<span class="badge-stock-low"><i class="bi bi-clock"></i> Pending</span>',
-    'preparing': '<span style="background:#dbeafe;color:#2563eb;font-weight:600;padding:4px 10px;border-radius:20px;font-size:0.75rem"><i class="bi bi-gear"></i> Preparing</span>',
-    'ready': '<span style="background:#d1fae5;color:#059669;font-weight:600;padding:4px 10px;border-radius:20px;font-size:0.75rem"><i class="bi bi-check-circle"></i> Ready</span>',
-    'completed': '<span class="badge-paid"><i class="bi bi-check-circle-fill"></i> Completed</span>',
-    'cancelled': '<span class="badge-stock-out"><i class="bi bi-x-circle"></i> Cancelled</span>'
+    'pending': '<span class="badge-stock-low"><i class="bi bi-clock"></i> Naghihintay</span>',
+    'preparing': '<span style="background:#dbeafe;color:#2563eb;font-weight:600;padding:4px 10px;border-radius:20px;font-size:0.75rem"><i class="bi bi-gear"></i> Inihahanda</span>',
+    'ready': '<span style="background:#d1fae5;color:#059669;font-weight:600;padding:4px 10px;border-radius:20px;font-size:0.75rem"><i class="bi bi-check-circle"></i> Handa na</span>',
+    'completed': '<span class="badge-paid"><i class="bi bi-check-circle-fill"></i> Tapos na</span>',
+    'cancelled': '<span class="badge-stock-out"><i class="bi bi-x-circle"></i> Kinansela</span>'
   };
   return badges[status] || '<span class="badge bg-secondary">' + status + '</span>';
 }
@@ -114,29 +114,29 @@ function getStatusButtons(orderId, currentStatus) {
   var buttons = '';
 
   if (currentStatus === 'pending') {
-    buttons += '<button class="btn btn-seven-orange btn-sm mb-1 w-100" onclick="updateOrderStatus(\'' + orderId + '\', \'preparing\')"><i class="bi bi-gear"></i> Preparing</button>';
+    buttons += '<button class="btn btn-seven-orange btn-sm mb-1 w-100" onclick="updateOrderStatus(\'' + orderId + '\', \'preparing\')"><i class="bi bi-gear"></i> Inihahanda</button>';
   }
   if (currentStatus === 'pending' || currentStatus === 'preparing') {
-    buttons += '<button class="btn btn-seven-green btn-sm mb-1 w-100" onclick="updateOrderStatus(\'' + orderId + '\', \'ready\')"><i class="bi bi-check-circle"></i> Ready</button>';
+    buttons += '<button class="btn btn-seven-green btn-sm mb-1 w-100" onclick="updateOrderStatus(\'' + orderId + '\', \'ready\')"><i class="bi bi-check-circle"></i> Handa na</button>';
   }
   if (currentStatus === 'ready') {
-    buttons += '<button class="btn btn-seven-green btn-sm mb-1 w-100" onclick="updateOrderStatus(\'' + orderId + '\', \'completed\')"><i class="bi bi-check-circle-fill"></i> Completed</button>';
+    buttons += '<button class="btn btn-seven-green btn-sm mb-1 w-100" onclick="updateOrderStatus(\'' + orderId + '\', \'completed\')"><i class="bi bi-check-circle-fill"></i> Tapos na</button>';
   }
 
-  buttons += '<button class="btn btn-seven-red btn-sm w-100" onclick="updateOrderStatus(\'' + orderId + '\', \'cancelled\')"><i class="bi bi-x-circle"></i> Cancel</button>';
+  buttons += '<button class="btn btn-seven-red btn-sm w-100" onclick="updateOrderStatus(\'' + orderId + '\', \'cancelled\')"><i class="bi bi-x-circle"></i> Kanselahin</button>';
 
   return buttons;
 }
 
 async function updateOrderStatus(orderId, newStatus) {
   var statusLabels = {
-    'preparing': 'Preparing',
-    'ready': 'Ready for Pickup',
-    'completed': 'Completed',
-    'cancelled': 'Cancelled'
+    'preparing': 'Inihahanda',
+    'ready': 'Handa na para sa Pickup',
+    'completed': 'Tapos na',
+    'cancelled': 'Kinansela'
   };
 
-  if (!confirm('Change order status to "' + statusLabels[newStatus] + '"?')) return;
+  if (!confirm('Palitan ang status ng order sa "' + statusLabels[newStatus] + '"?')) return;
 
   var { error } = await supabase
     .from('orders')
@@ -148,6 +148,6 @@ async function updateOrderStatus(orderId, newStatus) {
     return;
   }
 
-  showToast('Order status updated to ' + statusLabels[newStatus] + '!');
+  showToast('Na-update ang status ng order: ' + statusLabels[newStatus] + '!');
   await loadOrders();
 }

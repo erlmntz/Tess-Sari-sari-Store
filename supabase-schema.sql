@@ -111,6 +111,17 @@ INSERT INTO products (name, category, price, cost, quantity, unit) VALUES
   ('Silver Swan Soy Sauce 385ml', 'Condiments', 22.00, 16.00, 20, 'pc'),
   ('Rice (Sinandomeng) 1kg', 'Rice & Essentials', 55.00, 45.00, 50, 'kg');
 
+-- 6. STORAGE BUCKET for product images
+-- Run this in SQL Editor to create the storage bucket
+INSERT INTO storage.buckets (id, name, public) VALUES ('product-images', 'product-images', true)
+ON CONFLICT (id) DO UPDATE SET public = true;
+
+-- Storage policies (allow public read, anon upload)
+CREATE POLICY "Public read product images" ON storage.objects FOR SELECT USING (bucket_id = 'product-images');
+CREATE POLICY "Allow upload product images" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'product-images');
+CREATE POLICY "Allow update product images" ON storage.objects FOR UPDATE USING (bucket_id = 'product-images');
+CREATE POLICY "Allow delete product images" ON storage.objects FOR DELETE USING (bucket_id = 'product-images');
+
 -- Sample Customers (Kapitbahay)
 INSERT INTO customers (name, address, phone, notes) VALUES
   ('Aling Maria', 'Block 1 Lot 5, Brgy. Sampaguita', '09171234567', 'Suki, laging bayad on time'),

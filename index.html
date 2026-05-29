@@ -33,6 +33,16 @@
     </div>
   </header>
 
+  <!-- Customer Info Bar -->
+  <div class="customer-info-bar" id="customerInfoBar" style="display:none">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-between">
+        <span><i class="bi bi-person-check-fill"></i> Kumusta, <strong id="customerDisplayName"></strong>! (<span id="customerDisplayPhone"></span>)</span>
+        <button class="btn btn-sm btn-outline-light" onclick="clearCustomerInfo()"><i class="bi bi-box-arrow-right"></i> Mag-logout</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Promo Banner -->
   <div class="promo-banner">
     <div class="container">
@@ -102,6 +112,37 @@
       <button class="checkout-btn" onclick="openCheckout()">
         <i class="bi bi-bag-check-fill"></i> I-checkout para sa Pickup
       </button>
+    </div>
+  </div>
+
+  <!-- Customer Verification Modal -->
+  <div class="modal fade" id="customerVerifyModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content" style="border-radius:16px;overflow:hidden">
+        <div class="modal-header" style="background:var(--pinoy-green);color:#fff;border:none">
+          <h5 class="mb-0"><i class="bi bi-person-check-fill"></i> Sino ka po?</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted small mb-3">Para malaman ng may-ari kung sino ang nag-order at magpi-pickup.</p>
+          <form id="customerVerifyForm">
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Pangalan</label>
+              <input type="text" class="form-control" id="verifyName" required placeholder="e.g. Juan Dela Cruz">
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Phone Number</label>
+              <input type="tel" class="form-control" id="verifyPhone" required placeholder="e.g. 09171234567">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer" style="border:none">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kanselahin</button>
+          <button type="button" class="btn btn-checkout" onclick="saveCustomerInfo()">
+            <i class="bi bi-check-circle-fill"></i> Magpatuloy
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
