@@ -46,51 +46,48 @@ function renderOrders(orders) {
   var container = document.getElementById('ordersList');
 
   if (orders.length === 0) {
-    container.innerHTML = '<div class="card seven-card"><div class="card-body text-center text-muted py-4"><i class="bi bi-inbox" style="font-size:2rem;display:block;margin-bottom:8px"></i>Walang orders</div></div>';
+    container.innerHTML = '<div class="order-card"><div style="text-align:center;padding:40px;color:#94a3b8"><i class="bi bi-inbox" style="font-size:2.5rem;display:block;margin-bottom:12px"></i><p style="margin:0;font-size:0.95rem">Walang orders</p></div></div>';
     return;
   }
 
-  container.innerHTML = orders.map(function(order) {
+  container.innerHTML = orders.map(function(order, index) {
     var items = order.items || [];
     var itemsList = items.map(function(item) {
-      return '<div style="display:flex;justify-content:space-between;font-size:0.85rem;padding:2px 0">' +
-        '<span>' + item.qty + 'x ' + item.name + '</span>' +
-        '<span>' + formatCurrency(item.subtotal) + '</span>' +
+      return '<div class="order-item-row">' +
+        '<span class="order-item-name"><span class="order-item-qty">' + item.qty + 'x</span> ' + item.name + '</span>' +
+        '<span class="order-item-price">' + formatCurrency(item.subtotal) + '</span>' +
       '</div>';
     }).join('');
 
     var statusBadge = getStatusBadge(order.status);
     var statusButtons = getStatusButtons(order.id, order.status);
     var orderId = order.id.substring(0, 8).toUpperCase();
+    var cardBg = index % 2 === 0 ? '#ffffff' : '#f8fafc';
 
-    return '<div class="card seven-card mb-3">' +
-      '<div class="card-body">' +
-        '<div class="d-flex justify-content-between align-items-start mb-2">' +
-          '<div>' +
-            '<h6 class="fw-bold mb-1">Order #' + orderId + '</h6>' +
-            '<small class="text-muted">' + formatDateTime(order.created_at) + '</small>' +
-          '</div>' +
-          '<div class="text-end">' +
-            statusBadge +
+    return '<div class="order-card" style="background:' + cardBg + '">' +
+      '<div class="order-card-top">' +
+        '<div class="order-card-id">' +
+          '<span class="order-hash">#' + orderId + '</span>' +
+          '<span class="order-date">' + formatDateTime(order.created_at) + '</span>' +
+        '</div>' +
+        statusBadge +
+      '</div>' +
+      '<div class="order-card-body">' +
+        '<div class="order-customer-section">' +
+          '<div class="order-customer-name"><i class="bi bi-person-fill"></i> ' + order.customer_name + '</div>' +
+          '<div class="order-customer-detail"><i class="bi bi-telephone-fill"></i> ' + order.phone + '</div>' +
+          (order.pickup_time ? '<div class="order-customer-detail"><i class="bi bi-clock-fill"></i> Pickup: ' + order.pickup_time + '</div>' : '') +
+          (order.notes ? '<div class="order-customer-detail"><i class="bi bi-chat-left-text-fill"></i> ' + order.notes + '</div>' : '') +
+        '</div>' +
+        '<div class="order-items-section">' +
+          '<div class="order-items-label">Mga Item:</div>' +
+          itemsList +
+          '<div class="order-total-row">' +
+            '<span>Kabuuan</span><span class="order-total-amount">' + formatCurrency(order.total) + '</span>' +
           '</div>' +
         '</div>' +
-        '<div class="row g-3">' +
-          '<div class="col-md-4">' +
-            '<div class="mb-2"><strong><i class="bi bi-person-fill"></i> ' + order.customer_name + '</strong></div>' +
-            '<div class="text-muted small"><i class="bi bi-telephone-fill"></i> ' + order.phone + '</div>' +
-            (order.pickup_time ? '<div class="text-muted small mt-1"><i class="bi bi-clock-fill"></i> Pickup: ' + order.pickup_time + '</div>' : '') +
-            (order.notes ? '<div class="text-muted small mt-1"><i class="bi bi-chat-left-text-fill"></i> ' + order.notes + '</div>' : '') +
-          '</div>' +
-          '<div class="col-md-5">' +
-            '<div class="small fw-semibold mb-1">Mga Item:</div>' +
-            itemsList +
-            '<div style="border-top:1px dashed #ddd;margin-top:6px;padding-top:6px;font-weight:700;display:flex;justify-content:space-between">' +
-              '<span>Kabuuan</span><span class="text-success">' + formatCurrency(order.total) + '</span>' +
-            '</div>' +
-          '</div>' +
-          '<div class="col-md-3 text-end">' +
-            statusButtons +
-          '</div>' +
+        '<div class="order-actions-section">' +
+          statusButtons +
         '</div>' +
       '</div>' +
     '</div>';
@@ -114,16 +111,16 @@ function getStatusButtons(orderId, currentStatus) {
   var buttons = '';
 
   if (currentStatus === 'pending') {
-    buttons += '<button class="btn btn-seven-orange btn-sm mb-1 w-100" onclick="updateOrderStatus(\'' + orderId + '\', \'preparing\')"><i class="bi bi-gear"></i> Inihahanda</button>';
+    buttons += '<button class="btn order-btn order-btn-prepare" onclick="updateOrderStatus(\'' + orderId + '\', \'preparing\')"><i class="bi bi-gear"></i> Inihahanda</button>';
   }
   if (currentStatus === 'pending' || currentStatus === 'preparing') {
-    buttons += '<button class="btn btn-seven-green btn-sm mb-1 w-100" onclick="updateOrderStatus(\'' + orderId + '\', \'ready\')"><i class="bi bi-check-circle"></i> Handa na</button>';
+    buttons += '<button class="btn order-btn order-btn-ready" onclick="updateOrderStatus(\'' + orderId + '\', \'ready\')"><i class="bi bi-check-circle"></i> Handa na</button>';
   }
   if (currentStatus === 'ready') {
-    buttons += '<button class="btn btn-seven-green btn-sm mb-1 w-100" onclick="updateOrderStatus(\'' + orderId + '\', \'completed\')"><i class="bi bi-check-circle-fill"></i> Tapos na</button>';
+    buttons += '<button class="btn order-btn order-btn-ready" onclick="updateOrderStatus(\'' + orderId + '\', \'completed\')"><i class="bi bi-check-circle-fill"></i> Tapos na</button>';
   }
 
-  buttons += '<button class="btn btn-seven-red btn-sm w-100" onclick="updateOrderStatus(\'' + orderId + '\', \'cancelled\')"><i class="bi bi-x-circle"></i> Kanselahin</button>';
+  buttons += '<button class="btn order-btn order-btn-cancel" onclick="updateOrderStatus(\'' + orderId + '\', \'cancelled\')"><i class="bi bi-x-circle"></i> Kanselahin</button>';
 
   return buttons;
 }

@@ -167,9 +167,12 @@ function renderCreditsList() {
           '<div class="customer-name"><i class="bi bi-person-fill me-1"></i>' + cust.name + '</div>' +
           '<div class="customer-address">' + (cust.address || '') + (cust.phone ? ' | ' + cust.phone : '') + '</div>' +
         '</div>' +
-        '<div class="text-end">' +
-          '<div class="total-utang">' + formatCurrency(cust.totalUnpaid) + '</div>' +
-          '<small style="color:rgba(255,255,255,0.5)">Kabuuang Utang</small>' +
+        '<div class="text-end d-flex align-items-center gap-2">' +
+          '<div>' +
+            '<div class="total-utang">' + formatCurrency(cust.totalUnpaid) + '</div>' +
+            '<small style="color:rgba(255,255,255,0.5)">Kabuuang Utang</small>' +
+          '</div>' +
+          '<button class="btn btn-sm btn-outline-light" title="I-delete ang customer" onclick="event.stopPropagation();deleteCustomer(\'' + custId + '\', \'' + escapeHtmlCredits(cust.name) + '\')" style="border-color:rgba(255,255,255,0.3);padding:4px 8px"><i class="bi bi-trash"></i></button>' +
         '</div>' +
       '</div>' +
       '<div class="customer-credit-body">' +
@@ -229,6 +232,27 @@ async function saveCustomer() {
 
   bootstrap.Modal.getInstance(document.getElementById('customerModal')).hide();
   showToast(id ? 'Na-update ang customer!' : 'Naidagdag ang customer!');
+  await loadAllData();
+}
+
+async function deleteCustomer(customerId, customerName) {
+  if (!confirm('I-delete si "' + customerName + '"? Matatanggal din lahat ng utang niya.')) return;
+
+  // Delete all credits for this customer first
+  var { error: creditsError } = await supabase.from('credits').delete().eq('customer_id', customerId);
+  if (creditsError) {
+    showToast('Error sa pag-delete ng utang: ' + creditsError.message, 'error');
+    return;
+  }
+
+  // Then delete the customer
+  var { error: custError } = await supabase.from('customers').delete().eq('id', customerId);
+  if (custError) {
+    showToast('Error sa pag-delete ng customer: ' + custError.message, 'error');
+    return;
+  }
+
+  showToast('Na-delete si ' + customerName + '!');
   await loadAllData();
 }
 
