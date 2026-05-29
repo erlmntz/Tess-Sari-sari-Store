@@ -117,6 +117,9 @@ function buildCategoryPills() {
     'Rice & Essentials': 'Bigas',
     'Bread & Pastries': 'Tinapay',
     'Frozen': 'Frozen',
+    'School Supplies': 'Paninda Eskwela',
+    'Personal Care': 'Pang-Personal',
+    'Sweets': 'Matamis',
     'General': 'Iba Pa'
   };
 
@@ -158,6 +161,9 @@ function getCategoryIcon(category) {
     'Rice & Essentials': 'bi-basket3-fill',
     'Bread & Pastries': 'bi-egg-fried',
     'Frozen': 'bi-snow',
+    'School Supplies': 'bi-pencil-fill',
+    'Personal Care': 'bi-heart-pulse-fill',
+    'Sweets': 'bi-gift-fill',
     'General': 'bi-bag-fill'
   };
   return icons[category] || 'bi-bag-fill';
@@ -173,7 +179,10 @@ function getCategoryClass(category) {
     'Household': 'cat-household',
     'Cigarettes': 'cat-cigarettes',
     'Condiments': 'cat-condiments',
-    'Rice & Essentials': 'cat-rice'
+    'Rice & Essentials': 'cat-rice',
+    'School Supplies': 'cat-school',
+    'Personal Care': 'cat-personal',
+    'Sweets': 'cat-sweets'
   };
   return classes[category] || 'cat-default';
 }
