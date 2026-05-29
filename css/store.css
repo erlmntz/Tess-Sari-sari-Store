@@ -495,6 +495,7 @@ body {
 
 .filter-section {
   margin-bottom: 24px;
+  position: relative;
 }
 
 .search-box {
@@ -536,12 +537,22 @@ body {
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  padding-bottom: 4px;
+  padding-bottom: 8px;
+  padding-right: 20px;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  flex-wrap: nowrap;
+  max-width: 100%;
 }
 
 .category-pills::-webkit-scrollbar { display: none; }
+
+.category-pills::after {
+  content: '';
+  min-width: 8px;
+  flex-shrink: 0;
+}
 
 .cat-pill {
   background: white;
@@ -555,6 +566,7 @@ body {
   white-space: nowrap;
   transition: all 0.2s;
   font-family: 'Poppins', sans-serif;
+  flex-shrink: 0;
 }
 
 .cat-pill:hover {
