@@ -53,48 +53,66 @@ function renderOrders(orders) {
   container.innerHTML = orders.map(function(order) {
     var items = order.items || [];
     var itemsList = items.map(function(item) {
-      return '<div style="display:flex;justify-content:space-between;font-size:0.85rem;padding:2px 0">' +
+      return '<div class="order-item-row">' +
         '<span>' + item.qty + 'x ' + item.name + '</span>' +
-        '<span>' + formatCurrency(item.subtotal) + '</span>' +
+        '<span class="fw-semibold">' + formatCurrency(item.subtotal) + '</span>' +
       '</div>';
     }).join('');
 
     var statusBadge = getStatusBadge(order.status);
     var statusButtons = getStatusButtons(order.id, order.status);
     var orderId = order.id.substring(0, 8).toUpperCase();
+    var statusColor = getStatusColor(order.status);
 
-    return '<div class="card seven-card mb-3">' +
-      '<div class="card-body">' +
-        '<div class="d-flex justify-content-between align-items-start mb-2">' +
-          '<div>' +
-            '<h6 class="fw-bold mb-1">Order #' + orderId + '</h6>' +
-            '<small class="text-muted">' + formatDateTime(order.created_at) + '</small>' +
-          '</div>' +
-          '<div class="text-end">' +
-            statusBadge +
-          '</div>' +
+    return '<div class="order-card mb-3" style="border-left:4px solid ' + statusColor + '">' +
+      '<div class="order-card-header">' +
+        '<div>' +
+          '<h6 class="order-id">Order #' + orderId + '</h6>' +
+          '<small class="order-date"><i class="bi bi-calendar3 me-1"></i>' + formatDateTime(order.created_at) + '</small>' +
         '</div>' +
+        '<div class="text-end">' +
+          statusBadge +
+        '</div>' +
+      '</div>' +
+      '<div class="order-card-body">' +
         '<div class="row g-3">' +
           '<div class="col-md-4">' +
-            '<div class="mb-2"><strong><i class="bi bi-person-fill"></i> ' + order.customer_name + '</strong></div>' +
-            '<div class="text-muted small"><i class="bi bi-telephone-fill"></i> ' + order.phone + '</div>' +
-            (order.pickup_time ? '<div class="text-muted small mt-1"><i class="bi bi-clock-fill"></i> Pickup: ' + order.pickup_time + '</div>' : '') +
-            (order.notes ? '<div class="text-muted small mt-1"><i class="bi bi-chat-left-text-fill"></i> ' + order.notes + '</div>' : '') +
-          '</div>' +
-          '<div class="col-md-5">' +
-            '<div class="small fw-semibold mb-1">Mga Item:</div>' +
-            itemsList +
-            '<div style="border-top:1px dashed #ddd;margin-top:6px;padding-top:6px;font-weight:700;display:flex;justify-content:space-between">' +
-              '<span>Kabuuan</span><span class="text-success">' + formatCurrency(order.total) + '</span>' +
+            '<div class="order-customer-info">' +
+              '<div class="order-customer-name"><i class="bi bi-person-fill"></i> ' + order.customer_name + '</div>' +
+              '<div class="order-customer-detail"><i class="bi bi-telephone-fill"></i> ' + order.phone + '</div>' +
+              (order.pickup_time ? '<div class="order-customer-detail"><i class="bi bi-clock-fill"></i> Pickup: ' + order.pickup_time + '</div>' : '') +
+              (order.notes ? '<div class="order-customer-detail"><i class="bi bi-chat-left-text-fill"></i> ' + order.notes + '</div>' : '') +
             '</div>' +
           '</div>' +
-          '<div class="col-md-3 text-end">' +
-            statusButtons +
+          '<div class="col-md-5">' +
+            '<div class="order-items-section">' +
+              '<div class="order-items-label"><i class="bi bi-receipt me-1"></i>Mga Item:</div>' +
+              itemsList +
+              '<div class="order-total-row">' +
+                '<span>Kabuuan</span><span class="order-total-amount">' + formatCurrency(order.total) + '</span>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="col-md-3">' +
+            '<div class="order-actions">' +
+              statusButtons +
+            '</div>' +
           '</div>' +
         '</div>' +
       '</div>' +
     '</div>';
   }).join('');
+}
+
+function getStatusColor(status) {
+  var colors = {
+    'pending': '#f59e0b',
+    'preparing': '#3b82f6',
+    'ready': '#10b981',
+    'completed': '#059669',
+    'cancelled': '#ef4444'
+  };
+  return colors[status] || '#6b7280';
 }
 
 function getStatusBadge(status) {

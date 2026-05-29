@@ -1094,3 +1094,121 @@ body {
   border-radius: 4px;
   font-size: 0.85rem;
 }
+
+/* ============================================================
+   ORDER CARDS
+   ============================================================ */
+
+.order-card {
+  background: #f8fafb;
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.order-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  transform: translateY(-1px);
+}
+
+.order-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px 20px 12px;
+  background: linear-gradient(135deg, #eef2f7, #f1f5f9);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.order-id {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--seven-dark);
+  margin-bottom: 2px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.order-date {
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+.order-card-body {
+  padding: 16px 20px 18px;
+}
+
+.order-customer-info {
+  background: white;
+  border-radius: 10px;
+  padding: 12px 14px;
+  border: 1px solid #e8ecf1;
+}
+
+.order-customer-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--seven-dark);
+  margin-bottom: 6px;
+}
+
+.order-customer-name i {
+  color: var(--seven-green);
+  margin-right: 4px;
+}
+
+.order-customer-detail {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.order-customer-detail i {
+  width: 16px;
+  display: inline-block;
+  text-align: center;
+  margin-right: 4px;
+}
+
+.order-items-section {
+  background: white;
+  border-radius: 10px;
+  padding: 12px 14px;
+  border: 1px solid #e8ecf1;
+}
+
+.order-items-label {
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: var(--seven-dark);
+  margin-bottom: 8px;
+}
+
+.order-item-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  padding: 4px 0;
+  color: #475569;
+}
+
+.order-total-row {
+  border-top: 2px dashed #e2e8f0;
+  margin-top: 8px;
+  padding-top: 8px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+}
+
+.order-total-amount {
+  color: var(--seven-green);
+  font-size: 1.05rem;
+}
+
+.order-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
