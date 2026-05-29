@@ -1058,6 +1058,69 @@ body {
 }
 
 /* ============================================================
+   CUSTOMER VERIFICATION MODAL
+   ============================================================ */
+
+.verify-modal {
+  border: none;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.verify-modal-header {
+  background: linear-gradient(135deg, #00703C, #10b981);
+  color: white;
+  text-align: center;
+  padding: 32px 24px 24px;
+  position: relative;
+}
+
+.verify-icon-wrap {
+  width: 72px;
+  height: 72px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+  font-size: 2rem;
+  backdrop-filter: blur(6px);
+}
+
+.verify-title {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  font-size: 1.35rem;
+  margin-bottom: 6px;
+}
+
+.verify-subtitle {
+  font-size: 0.88rem;
+  opacity: 0.9;
+  margin-bottom: 0;
+  line-height: 1.4;
+}
+
+.verify-input {
+  border-radius: 12px !important;
+  border: 2px solid var(--pinoy-border) !important;
+  padding: 12px 16px !important;
+  font-size: 1rem !important;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.verify-input:focus {
+  border-color: var(--pinoy-green) !important;
+  box-shadow: 0 0 0 4px rgba(0, 112, 60, 0.1) !important;
+}
+
+.verify-input::placeholder {
+  color: #b0b8c4;
+  font-size: 0.9rem;
+}
+
+/* ============================================================
    CHECKOUT MODAL
    ============================================================ */
 
