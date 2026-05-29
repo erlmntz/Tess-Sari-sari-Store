@@ -208,30 +208,33 @@
 
   <!-- Customer Verification Modal -->
   <div class="modal fade" id="customerVerifyModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-      <div class="modal-content" style="border-radius:16px;overflow:hidden">
-        <div class="modal-header" style="background:var(--pinoy-green);color:#fff;border:none">
-          <h5 class="mb-0"><i class="bi bi-person-check-fill"></i> Sino ka po?</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content verify-modal">
+        <div class="verify-modal-header">
+          <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+          <div class="verify-icon-wrap">
+            <i class="bi bi-person-hearts"></i>
+          </div>
+          <h5 class="verify-title">Kumusta, kapitbahay!</h5>
+          <p class="verify-subtitle">Ilagay ang iyong pangalan at number para makilala ka namin sa pickup.</p>
         </div>
-        <div class="modal-body">
-          <p class="text-muted small mb-3">Para malaman ng may-ari kung sino ang nag-order at magpi-pickup.</p>
+        <div class="modal-body px-4 pb-2 pt-4">
           <form id="customerVerifyForm">
             <div class="mb-3">
-              <label class="form-label fw-semibold">Pangalan</label>
-              <input type="text" class="form-control" id="verifyName" required placeholder="e.g. Juan Dela Cruz">
+              <label class="form-label fw-semibold"><i class="bi bi-person-fill me-1"></i> Pangalan</label>
+              <input type="text" class="form-control form-control-lg verify-input" id="verifyName" required placeholder="e.g. Juan Dela Cruz">
             </div>
             <div class="mb-3">
-              <label class="form-label fw-semibold">Phone Number</label>
-              <input type="tel" class="form-control" id="verifyPhone" required placeholder="e.g. 09171234567">
+              <label class="form-label fw-semibold"><i class="bi bi-phone-fill me-1"></i> Phone Number</label>
+              <input type="tel" class="form-control form-control-lg verify-input" id="verifyPhone" required placeholder="e.g. 09171234567">
             </div>
           </form>
         </div>
-        <div class="modal-footer" style="border:none">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kanselahin</button>
-          <button type="button" class="btn btn-checkout" onclick="saveCustomerInfo()">
-            <i class="bi bi-check-circle-fill"></i> Magpatuloy
+        <div class="modal-footer border-0 px-4 pb-4 pt-0 d-flex flex-column gap-2">
+          <button type="button" class="btn btn-checkout btn-lg w-100" onclick="saveCustomerInfo()">
+            <i class="bi bi-check-circle-fill me-1"></i> Magpatuloy
           </button>
+          <button type="button" class="btn btn-link text-muted btn-sm" data-bs-dismiss="modal">Kanselahin</button>
         </div>
       </div>
     </div>
